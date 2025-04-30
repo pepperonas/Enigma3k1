@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_m">
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AES Verschlüsselung mit IV"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="?android:textColorPrimary"
+            android:layout_marginBottom="@dimen/spacing_s" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/aes_description"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?android:textColorSecondary"
+            android:layout_marginBottom="@dimen/spacing_m" />
+
+        <!-- Mode Selector -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_m"
+            app:cardCornerRadius="@dimen/corner_radius_m"
+            app:cardElevation="@dimen/elevation_card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_m">
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/mode_toggle_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:singleSelection="true"
+                    app:selectionRequired="true">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/encrypt_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/encrypt_button"
+                        android:checked="true"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/decrypt_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/decrypt_button"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Input/Output Area -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_m"
+            app:cardCornerRadius="@dimen/corner_radius_m"
+            app:cardElevation="@dimen/elevation_card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_m">
+
+                <!-- Input Text -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/aes_encrypt_hint"
+                    android:layout_marginBottom="@dimen/spacing_m">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:minLines="4" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Output Text -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/aes_output"
+                    android:layout_marginBottom="@dimen/spacing_m">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/output_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:focusable="false"
+                        android:minLines="4" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/copy_output_button"
+                        android:layout_width="@dimen/width_icon_button"
+                        android:layout_height="@dimen/width_icon_button"
+                        android:layout_gravity="end"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/copy_to_clipboard"
+                        android:src="@drawable/ic_content_copy" />
+
+                </FrameLayout>
+
+                <!-- Password Input -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/aes_key_input"
+                    app:endIconMode="password_toggle"
+                    android:layout_marginBottom="@dimen/spacing_s">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Password Controls -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/spacing_m">
+
+                    <ToggleButton
+                        android:id="@+id/show_password_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textOn="@string/aes_hide_password"
+                        android:textOff="@string/aes_show_password"
+                        android:layout_marginEnd="@dimen/spacing_s" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/generate_key_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/generate_key_button"
+                        app:icon="@drawable/ic_refresh"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                </LinearLayout>
+
+                <!-- Key Size Selection -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/spacing_m">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/aes_key_sizes"
+                        android:textColor="?android:textColorSecondary"
+                        android:layout_marginEnd="@dimen/spacing_s" />
+
+                    <Spinner
+                        android:id="@+id/key_size_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/key_sizes" />
+
+                </LinearLayout>
+
+                <!-- Error/Info Messages -->
+                <TextView
+                    android:id="@+id/error_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_error_message"
+                    android:padding="@dimen/spacing_s"
+                    android:textColor="@color/error"
+                    android:visibility="gone"
+                    tools:text="Fehler: Ungültiger Schlüssel"
+                    tools:visibility="visible"
+                    android:layout_marginBottom="@dimen/spacing_s" />
+
+                <TextView
+                    android:id="@+id/info_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_info_message"
+                    android:padding="@dimen/spacing_s"
+                    android:textColor="@color/success"
+                    android:visibility="gone"
+                    tools:text="Schlüssel erfolgreich generiert"
+                    tools:visibility="visible"
+                    android:layout_marginBottom="@dimen/spacing_s" />
+
+                <!-- Process Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/process_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/encrypt_button" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Saved Keys Section -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_m"
+            app:cardCornerRadius="@dimen/corner_radius_m"
+            app:cardElevation="@dimen/elevation_card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_m">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/aes_saved_keys"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="@dimen/spacing_m" />
+
+                <!-- Save Key Form -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/spacing_m">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/hint_key_name">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/key_name_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/save_key_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_s"
+                        android:text="@string/save_key_button"
+                        android:layout_gravity="center_vertical" />
+
+                </LinearLayout>
+
+                <!-- Saved Keys List -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/saved_keys_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_key" />
+
+                <TextView
+                    android:id="@+id/no_saved_keys_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/aes_no_saved_keys"
+                    android:textColor="?android:textColorSecondary"
+                    android:gravity="center"
+                    android:padding="@dimen/spacing_m"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Info Section -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/corner_radius_m"
+            app:cardElevation="@dimen/elevation_card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_m">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/aes_info_title"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="@dimen/spacing_s" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• AES-GCM ist ein moderner, sicherer Verschlüsselungsalgorithmus mit Authentifizierung, der einen Initialization Vector (IV) verwendet, um die Einzigartigkeit jeder Verschlüsselung zu gewährleisten.\n\n• Längere Schlüssel (192, 256 Bit) bieten mehr Sicherheit, können aber mehr Rechenleistung erfordern. 256 Bit gilt als zukunftssicher.\n\n• Der Initialization Vector wird automatisch bei jeder Verschlüsselung erzeugt und im verschlüsselten Text gespeichert, daher ist er nicht separat zu speichern.\n\n• Es gibt keine Möglichkeit, ein verlorenes Passwort oder einen verlorenen Schlüssel wiederherzustellen. Bewahre deine Schlüssel sicher auf!\n\n• Für maximale Sicherheit solltest du zufällig generierte Schlüssel statt einfacher Passwörter verwenden, da diese resistenter gegen Wörterbuch- und Brute-Force-Angriffe sind.\n\n• Der verschlüsselte Text ist Base64-kodiert und kann sicher in E-Mails, Datenbanken oder Textdateien gespeichert werden."
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="?android:textColorSecondary" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</ScrollView>

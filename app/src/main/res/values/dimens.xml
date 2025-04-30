@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Standard Abstände -->
+    <dimen name="spacing_xxs">2dp</dimen>
+    <dimen name="spacing_xs">4dp</dimen>
+    <dimen name="spacing_s">8dp</dimen>
+    <dimen name="spacing_m">16dp</dimen>
+    <dimen name="spacing_l">24dp</dimen>
+    <dimen name="spacing_xl">32dp</dimen>
+    <dimen name="spacing_xxl">48dp</dimen>
+
+    <!-- Text-Größen -->
+    <dimen name="text_size_xs">12sp</dimen>
+    <dimen name="text_size_s">14sp</dimen>
+    <dimen name="text_size_m">16sp</dimen>
+    <dimen name="text_size_l">18sp</dimen>
+    <dimen name="text_size_xl">20sp</dimen>
+    <dimen name="text_size_xxl">24sp</dimen>
+    <dimen name="text_size_header">22sp</dimen>
+    <dimen name="text_size_title">26sp</dimen>
+
+    <!-- Höhen -->
+    <dimen name="height_button">48dp</dimen>
+    <dimen name="height_input">56dp</dimen>
+    <dimen name="height_text_field">120dp</dimen>
+    <dimen name="height_card">172dp</dimen>
+    <dimen name="height_progress_bar">4dp</dimen>
+    <dimen name="height_divider">1dp</dimen>
+
+    <!-- Breiten -->
+    <dimen name="width_icon_button">48dp</dimen>
+    <dimen name="width_spinner">120dp</dimen>
+
+    <!-- Eckenradien -->
+    <dimen name="corner_radius_s">4dp</dimen>
+    <dimen name="corner_radius_m">8dp</dimen>
+    <dimen name="corner_radius_l">16dp</dimen>
+
+    <!-- Elevation (Schatten) -->
+    <dimen name="elevation_card">2dp</dimen>
+    <dimen name="elevation_button">4dp</dimen>
+    <dimen name="elevation_dialog">8dp</dimen>
+
+    <!-- Spezifische Dimensionen -->
+    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="key_item_height">72dp</dimen>
+    <dimen name="progress_bar_height">4dp</dimen>
+    <dimen name="icon_size_small">16dp</dimen>
+    <dimen name="icon_size_medium">24dp</dimen>
+    <dimen name="icon_size_large">32dp</dimen>
+    <dimen name="padding_card">16dp</dimen>
+</resources>

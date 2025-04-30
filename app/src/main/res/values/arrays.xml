@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- AES Schlüsselgrößen -->
+    <string-array name="key_sizes">
+        <item>128 Bit</item>
+        <item>192 Bit</item>
+        <item>256 Bit</item>
+    </string-array>
+
+    <!-- RSA Schlüsselgrößen -->
+    <string-array name="rsa_key_sizes">
+        <item>1024 Bit</item>
+        <item>2048 Bit</item>
+        <item>4096 Bit</item>
+    </string-array>
+
+    <!-- Caesar Shift-Werte -->
+    <string-array name="caesar_shifts">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+    </string-array>
+
+    <!-- Verschlüsselungsmodi -->
+    <string-array name="encryption_modes">
+        <item>Verschlüsseln</item>
+        <item>Entschlüsseln</item>
+    </string-array>
+
+    <!-- Dateiverschlüsselungsmodi -->
+    <string-array name="file_encryption_modes">
+        <item>Dateien verschlüsseln</item>
+        <item>Dateien entschlüsseln</item>
+    </string-array>
+
+    <!-- AES Modi (für zukünftige Erweiterungen) -->
+    <string-array name="aes_modes">
+        <item>AES-GCM</item>
+        <item>AES-CBC</item>
+        <item>AES-CTR</item>
+    </string-array>
+
+    <!-- RSA Padding-Modi (für zukünftige Erweiterungen) -->
+    <string-array name="rsa_padding_modes">
+        <item>PKCS1Padding</item>
+        <item>OAEPWithSHA-1AndMGF1Padding</item>
+        <item>OAEPWithSHA-256AndMGF1Padding</item>
+    </string-array>
+
+    <!-- Hash-Funktionen (für zukünftige Erweiterungen) -->
+    <string-array name="hash_functions">
+        <item>SHA-1</item>
+        <item>SHA-256</item>
+        <item>SHA-384</item>
+        <item>SHA-512</item>
+        <item>MD5</item>
+    </string-array>
+
+    <!-- Key Derivation Functionen (für zukünftige Erweiterungen) -->
+    <string-array name="key_derivation_functions">
+        <item>PBKDF2</item>
+        <item>Bcrypt</item>
+        <item>Scrypt</item>
+    </string-array>
+
+    <!-- Beispiel für Sprachen (für lokalisierte Apps) -->
+    <string-array name="languages">
+        <item>Deutsch</item>
+        <item>Englisch</item>
+        <item>Französisch</item>
+        <item>Spanisch</item>
+        <item>Italienisch</item>
+    </string-array>
+</resources>

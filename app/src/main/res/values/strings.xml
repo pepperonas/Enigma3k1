@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App-Name und allgemeine Strings -->
+    <string name="app_name">Enigma3k1</string>
+    <string name="navigation_drawer_open">Navigation öffnen</string>
+    <string name="navigation_drawer_close">Navigation schließen</string>
+
+    <!-- Allgemeine Buttons und Labels -->
+    <string name="encrypt_button">Verschlüsseln</string>
+    <string name="decrypt_button">Entschlüsseln</string>
+    <string name="generate_key_button">Schlüssel generieren</string>
+    <string name="save_key_button">Speichern</string>
+    <string name="load_key">Laden</string>
+    <string name="unlock_key">Entsperren &amp; Laden</string>
+    <string name="delete_key">Löschen</string>
+    <string name="export_key">Exportieren</string>
+    <string name="import_key">Importieren</string>
+    <string name="copy_to_clipboard">In Zwischenablage kopieren</string>
+    <string name="success">Erfolg</string>
+    <string name="error">Fehler</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="ok">OK</string>
+
+    <!-- Hinweise -->
+    <string name="hint_key_name">Schlüsselname</string>
+    <string name="hint_password">Passwort</string>
+    <string name="hint_confirm_password">Passwort bestätigen</string>
+
+    <!-- Navigation-Menü -->
+    <string name="nav_aes">AES Verschlüsselung</string>
+    <string name="nav_rsa">RSA Verschlüsselung</string>
+    <string name="nav_caesar">Caesar Verschlüsselung</string>
+    <string name="nav_files">Dateiverschlüsselung</string>
+    <string name="nav_key_management">Schlüsselverwaltung</string>
+    <string name="nav_export_keys">Schlüssel exportieren</string>
+    <string name="nav_import_keys">Schlüssel importieren</string>
+
+    <!-- AES-Verschlüsselung -->
+    <string name="aes_description">AES (Advanced Encryption Standard) ist ein symmetrischer Verschlüsselungsalgorithmus, der weltweit für sichere Kommunikation verwendet wird. Diese Implementierung nutzt AES-GCM mit IV (Initialization Vector) für zusätzliche Sicherheit.</string>
+    <string name="aes_encrypt_hint">Zu verschlüsselnder Text</string>
+    <string name="aes_decrypt_hint">Zu entschlüsselnder Text (Base64)</string>
+    <string name="aes_key_input">Passwort / Schlüssel</string>
+    <string name="aes_show_password">Passwort anzeigen</string>
+    <string name="aes_hide_password">Passwort verbergen</string>
+    <string name="aes_output">Ergebnis</string>
+    <string name="aes_key_sizes">Schlüsselgröße</string>
+    <string name="aes_key_size_128">128 Bit</string>
+    <string name="aes_key_size_192">192 Bit</string>
+    <string name="aes_key_size_256">256 Bit</string>
+    <string name="aes_saved_keys">Gespeicherte Schlüssel</string>
+    <string name="aes_no_saved_keys">Keine gespeicherten Schlüssel vorhanden</string>
+    <string name="aes_key_generated">Zufälliger Schlüssel generiert</string>
+    <string name="aes_info_title">Hinweise zur AES-Verschlüsselung</string>
+
+    <!-- RSA-Verschlüsselung -->
+    <string name="rsa_description">RSA ist ein asymmetrisches Verschlüsselungsverfahren, das mit zwei Schlüsseln arbeitet: einem öffentlichen zum Verschlüsseln und einem privaten zum Entschlüsseln. RSA eignet sich besonders für den sicheren Schlüsselaustausch oder für digitale Signaturen.</string>
+    <string name="rsa_encrypt_hint">Zu verschlüsselnder Text</string>
+    <string name="rsa_decrypt_hint">Zu entschlüsselnder Text (Base64)</string>
+    <string name="rsa_key_pair">Schlüsselpaar</string>
+    <string name="rsa_public_key">Öffentlicher Schlüssel</string>
+    <string name="rsa_private_key">Privater Schlüssel</string>
+    <string name="rsa_use_external_key">Mit fremdem öffentlichen Schlüssel verschlüsseln</string>
+    <string name="rsa_external_key_hint">Öffentlicher Schlüssel (PEM oder Base64)</string>
+    <string name="rsa_export_public">Public Key exportieren</string>
+    <string name="rsa_export_private">Private Key exportieren</string>
+    <string name="rsa_generating">Generiere Schlüsselpaar...</string>
+    <string name="rsa_key_size_1024">1024 Bit</string>
+    <string name="rsa_key_size_2048">2048 Bit</string>
+    <string name="rsa_key_size_4096">4096 Bit</string>
+    <string name="rsa_key_size_hint">Schlüsselgröße</string>
+    <string name="rsa_saved_key_pairs">Gespeicherte Schlüsselpaare</string>
+    <string name="rsa_protect_with_password">Privaten Schlüssel mit Passwort schützen</string>
+    <string name="rsa_unlock_key_pair">Schlüsselpaar entsperren</string>
+    <string name="rsa_import_from_file">PEM-Datei importieren</string>
+    <string name="rsa_import_key">Schlüssel importieren</string>
+    <string name="rsa_import_key_pair">Schlüsselpaar importieren</string>
+    <string name="rsa_info_title">Hinweise zur RSA-Verschlüsselung</string>
+
+    <!-- Caesar-Verschlüsselung -->
+    <string name="caesar_description">Die Caesar-Verschlüsselung ist eine der ältesten und einfachsten Verschlüsselungstechniken. Sie funktioniert durch Verschieben jedes Buchstabens im Alphabet um eine feste Anzahl von Positionen. Die Methode ist nach Julius Caesar benannt, der sie für seine private Korrespondenz verwendete.</string>
+    <string name="caesar_input_hint">Text eingeben</string>
+    <string name="caesar_output_hint">Ergebnis</string>
+    <string name="caesar_shift">Verschiebung (Shift)</string>
+    <string name="caesar_random_shift">Zufällige Verschiebung</string>
+    <string name="caesar_brute_force">Brute Force</string>
+    <string name="caesar_info_title">Wissenswertes zur Caesar-Verschlüsselung</string>
+
+    <!-- Dateiverschlüsselung -->
+    <string name="file_description">Diese Funktion ermöglicht es Ihnen, Dateien mit AES-GCM zu verschlüsseln und entschlüsseln. Verschlüsselte Dateien haben die Dateiendung .enc und können später mit dem gleichen Passwort wieder entschlüsselt werden.</string>
+    <string name="file_pick_files">Dateien auswählen</string>
+    <string name="file_pick_files_to_encrypt">Dateien zum Verschlüsseln auswählen</string>
+    <string name="file_pick_files_to_decrypt">Dateien zum Entschlüsseln auswählen</string>
+    <string name="file_no_files">Keine Dateien ausgewählt</string>
+    <string name="file_encrypting">Verschlüssele...</string>
+    <string name="file_decrypting">Entschlüssele...</string>
+    <string name="file_open">Öffnen</string>
+    <string name="file_share">Teilen</string>
+    <string name="file_delete">Löschen</string>
+    <string name="file_info_title">Hinweise zur Dateiverschlüsselung</string>
+
+    <!-- Status-Meldungen -->
+    <string name="status_ready">Bereit</string>
+    <string name="status_processing">Verarbeitung...</string>
+    <string name="status_completed">Abgeschlossen</string>
+    <string name="status_error">Fehler</string>
+
+    <!-- Dialoge -->
+    <string name="dialog_password_protection">Privaten Schlüssel schützen</string>
+    <string name="dialog_password_protection_message">Du kannst deinen privaten Schlüssel mit einem Passwort schützen. Dies wird empfohlen, wenn du die Schlüssel im Browser speicherst. Leer lassen, wenn kein Passwortschutz gewünscht wird.</string>
+    <string name="dialog_master_password">Master-Passwort</string>
+    <string name="dialog_confirm_master_password">Master-Passwort bestätigen</string>
+    <string name="dialog_use_password">Mit Passwort schützen (empfohlen)</string>
+    <string name="dialog_delete_key">Schlüssel löschen</string>
+    <string name="dialog_delete_key_message">Möchtest Du diesen Schlüssel wirklich löschen?</string>
+    <string name="dialog_delete_key_pair">Schlüsselpaar löschen</string>
+    <string name="dialog_delete_key_pair_message">Möchtest Du dieses Schlüsselpaar wirklich löschen?</string>
+    <string name="dialog_security_warning">Sicherheitswarnung</string>
+    <string name="dialog_private_key_warning">Der private Schlüssel sollte niemals ungeschützt weitergegeben werden. Bist du sicher, dass du ihn exportieren möchtest?</string>
+
+    <!-- Fehlermeldungen -->
+    <string name="error_no_text">Bitte Text eingeben</string>
+    <string name="error_no_password">Bitte ein Passwort eingeben oder generieren</string>
+    <string name="error_no_key_name">Bitte einen Namen für den Schlüssel eingeben</string>
+    <string name="error_passwords_not_match">Die Passwörter stimmen nicht überein</string>
+    <string name="error_key_generation">Fehler bei der Schlüsselgenerierung</string>
+    <string name="error_encryption">Fehler bei der Verschlüsselung</string>
+    <string name="error_decryption">Fehler bei der Entschlüsselung</string>
+    <string name="error_file_not_available">Die Datei ist nicht verfügbar</string>
+    <string name="error_invalid_public_key">Ungültiger öffentlicher Schlüssel</string>
+    <string name="error_wrong_password">Falsches Passwort oder beschädigter Schlüssel</string>
+    <string name="error_no_files">Bitte zuerst Dateien hinzufügen</string>
+
+    <!-- Erfolgsmeldungen -->
+    <string name="success_key_generated">Schlüssel erfolgreich generiert</string>
+    <string name="success_key_saved">Schlüssel erfolgreich gespeichert</string>
+    <string name="success_key_deleted">Schlüssel erfolgreich gelöscht</string>
+    <string name="success_key_loaded">Schlüssel erfolgreich geladen</string>
+    <string name="success_key_exported">Schlüssel erfolgreich exportiert</string>
+    <string name="success_key_imported">Schlüssel erfolgreich importiert</string>
+    <string name="success_key_pair_generated">Schlüsselpaar erfolgreich generiert</string>
+    <string name="success_key_pair_saved">Schlüsselpaar erfolgreich gespeichert</string>
+    <string name="success_key_pair_deleted">Schlüsselpaar erfolgreich gelöscht</string>
+    <string name="success_key_pair_loaded">Schlüsselpaar erfolgreich geladen</string>
+    <string name="success_key_pair_unlocked">Schlüsselpaar erfolgreich entsperrt</string>
+    <string name="success_encryption">Verschlüsselung erfolgreich</string>
+    <string name="success_decryption">Entschlüsselung erfolgreich</string>
+    <string name="success_copied">In Zwischenablage kopiert</string>
+    <string name="success_file_encryption">Datei erfolgreich verschlüsselt</string>
+    <string name="success_file_decryption">Datei erfolgreich entschlüsselt</string>
+    <string name="success_files_added">Datei(en) hinzugefügt</string>
+
+    <!-- Andere -->
+    <string name="external_key_imported">Externer öffentlicher Schlüssel importiert ✓</string>
+</resources>

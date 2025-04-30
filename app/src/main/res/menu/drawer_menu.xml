@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_aes"
+            android:icon="@drawable/ic_shield"
+            android:title="AES" />
+        <item
+            android:id="@+id/nav_rsa"
+            android:icon="@drawable/ic_key"
+            android:title="RSA" />
+        <item
+            android:id="@+id/nav_caesar"
+            android:icon="@drawable/ic_lock"
+            android:title="Caesar" />
+        <item
+            android:id="@+id/nav_files"
+            android:icon="@drawable/ic_file"
+            android:title="Dateien" />
+    </group>
+
+    <item android:title="Schlüsselverwaltung">
+        <menu>
+            <item
+                android:id="@+id/nav_export"
+                android:icon="@drawable/ic_save"
+                android:title="Schlüssel exportieren" />
+            <item
+                android:id="@+id/nav_import"
+                android:icon="@drawable/ic_upload"
+                android:title="Schlüssel importieren" />
+        </menu>
+    </item>
+
+</menu>
