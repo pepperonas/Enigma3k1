@@ -151,4 +151,6 @@
 
     <!-- Andere -->
     <string name="external_key_imported">Externer öffentlicher Schlüssel importiert ✓</string>
+    <string name="pick_files_to_encrypt">Dartei zum Verschlüsseln auswählen</string>
+    <string name="pick_files_to_decrypt">Dartei zum Entschlüsseln auswählen</string>
 </resources>
