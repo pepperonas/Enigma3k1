@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -42,7 +41,7 @@ public class AesFragment extends Fragment {
     private ToggleButton showPasswordToggle;
     private MaterialButtonToggleGroup modeToggleGroup;
     private Button processButton, generateKeyButton, saveKeyButton;
-    private ImageButton copyOutputButton;
+    private com.google.android.material.button.MaterialButton copyOutputButton;
     private Spinner keySizeSpinner;
     private RecyclerView savedKeysRecyclerView;
     private TextView errorText, infoText;

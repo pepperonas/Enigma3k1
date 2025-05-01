@@ -16,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -53,7 +52,7 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
 
     private MaterialButtonToggleGroup modeToggleGroup;
     private EditText inputText, outputText;
-    private ImageButton copyOutputButton;
+    private com.google.android.material.button.MaterialButton copyOutputButton;
     private Button processButton, generateKeyButton, saveKeyButton, importKeyButton;
     private CheckBox useExternalKeyCheckbox;
     private TextInputLayout externalKeyLayout;

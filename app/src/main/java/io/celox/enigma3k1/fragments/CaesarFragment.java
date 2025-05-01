@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -31,7 +30,7 @@ public class CaesarFragment extends Fragment {
     private SeekBar shiftSeekBar;
     private MaterialButtonToggleGroup modeToggleGroup;
     private Button processButton, bruteForceButton, randomShiftButton;
-    private ImageButton copyOutputButton;
+    private com.google.android.material.button.MaterialButton copyOutputButton;
     private TextView errorText, infoText, shiftExampleText;
 
     private String currentMode = "encrypt"; // "encrypt" oder "decrypt"
