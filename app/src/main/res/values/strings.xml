@@ -153,4 +153,10 @@
     <string name="external_key_imported">Externer öffentlicher Schlüssel importiert ✓</string>
     <string name="pick_files_to_encrypt">Dartei zum Verschlüsseln auswählen</string>
     <string name="pick_files_to_decrypt">Dartei zum Entschlüsseln auswählen</string>
+    <string name="enter_password_to_unlock">Gib das Passwort ein, um den geschützten Schlüssel zu entsperren</string>
+
+    <!-- Füge diese Einträge zu deiner strings.xml Datei hinzu -->
+
+
+
 </resources>

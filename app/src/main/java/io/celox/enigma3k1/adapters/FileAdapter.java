@@ -48,7 +48,7 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileViewHolder
     @Override
     public void onBindViewHolder(@NonNull FileViewHolder holder, int position) {
         EncryptedFile file = files.get(position);
-        holder.bind(file);
+        holder.bind(file, listener);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileViewHolder
         return files.size();
     }
 
-    class FileViewHolder extends RecyclerView.ViewHolder {
+    static class FileViewHolder extends RecyclerView.ViewHolder {
         TextView fileName, fileInfo, statusText;
         ImageView fileIcon;
         ProgressBar progressBar;
@@ -76,7 +76,7 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileViewHolder
             deleteButton = itemView.findViewById(R.id.delete_button);
         }
 
-        public void bind(EncryptedFile file) {
+        public void bind(EncryptedFile file, FileActionListener listener) {
             fileName.setText(file.getFileName());
 
             // Dateigröße formatieren

@@ -50,7 +50,7 @@ public class RsaKeyAdapter extends RecyclerView.Adapter<RsaKeyAdapter.KeyViewHol
     @Override
     public void onBindViewHolder(@NonNull KeyViewHolder holder, int position) {
         RsaKeyPair keyPair = keyPairs.get(position);
-        holder.bind(keyPair);
+        holder.bind(keyPair, listener);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class RsaKeyAdapter extends RecyclerView.Adapter<RsaKeyAdapter.KeyViewHol
         return keyPairs.size();
     }
 
-    class KeyViewHolder extends RecyclerView.ViewHolder {
+    static class KeyViewHolder extends RecyclerView.ViewHolder {
         TextView keyName, keyInfo;
         Button loadButton, exportPublicButton, exportPrivateButton, deleteButton;
         ImageView lockIcon;
@@ -74,7 +74,7 @@ public class RsaKeyAdapter extends RecyclerView.Adapter<RsaKeyAdapter.KeyViewHol
             lockIcon = itemView.findViewById(R.id.lock_icon);
         }
 
-        public void bind(RsaKeyPair keyPair) {
+        public void bind(RsaKeyPair keyPair, KeyActionListener listener) {
             keyName.setText(keyPair.getName());
 
             // Schlüsselinfo formatieren

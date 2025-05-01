@@ -44,13 +44,23 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                     android:textColor="@color/text_secondary"
-                    tools:text="2.5 MB • Bereit" />
+                    tools:text="2.5 MB" />
+
+                <!-- Hinzugefügt für Status-Anzeige -->
+                <TextView
+                    android:id="@+id/status_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                    android:textColor="@color/accent"
+                    android:visibility="visible"
+                    tools:text="Bereit" />
 
             </LinearLayout>
 
-            <!-- Status-Icon -->
+            <!-- Status-Icon, ID geändert -->
             <ImageView
-                android:id="@+id/status_icon"
+                android:id="@+id/file_icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_vertical"
@@ -59,9 +69,9 @@
 
         </LinearLayout>
 
-        <!-- Fortschrittsbalken -->
+        <!-- Fortschrittsbalken, ID geändert -->
         <ProgressBar
-            android:id="@+id/file_progress"
+            android:id="@+id/progress_bar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="4dp"

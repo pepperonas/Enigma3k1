@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'io.celox.enigma3k1'  // Diese Zeile hinzufügen
+    namespace 'io.celox.enigma3k1'
     compileSdk 34
 
     defaultConfig {

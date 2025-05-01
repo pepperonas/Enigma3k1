@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gib das Passwort ein, um den geschützten Schlüssel zu entsperren"
+        android:text="@string/enter_password_to_unlock"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textColor="@color/text_primary"
         android:layout_marginBottom="@dimen/spacing_m" />

@@ -48,7 +48,7 @@ public class AesKeyAdapter extends RecyclerView.Adapter<AesKeyAdapter.KeyViewHol
     @Override
     public void onBindViewHolder(@NonNull KeyViewHolder holder, int position) {
         AesKey key = keys.get(position);
-        holder.bind(key);
+        holder.bind(key, listener);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class AesKeyAdapter extends RecyclerView.Adapter<AesKeyAdapter.KeyViewHol
         return keys.size();
     }
 
-    class KeyViewHolder extends RecyclerView.ViewHolder {
+    static class KeyViewHolder extends RecyclerView.ViewHolder {
         TextView keyName, keyInfo;
         Button loadButton, deleteButton;
 
@@ -68,12 +68,12 @@ public class AesKeyAdapter extends RecyclerView.Adapter<AesKeyAdapter.KeyViewHol
             deleteButton = itemView.findViewById(R.id.delete_key_button);
         }
 
-        public void bind(AesKey key) {
+        public void bind(AesKey key, OnKeyActionListener listener) {
             keyName.setText(key.getName());
 
             // Schlüsselinfo formatieren
             String info = key.getKeySize() + " Bit • Erstellt am " +
-                    (key.getCreatedAt() != null ? dateFormat.format(key.getCreatedAt()) : "Unbekannt");
+                    (key.getCreatedAt() != null ? new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(key.getCreatedAt()) : "Unbekannt");
             keyInfo.setText(info);
 
             // Click-Listener einrichten

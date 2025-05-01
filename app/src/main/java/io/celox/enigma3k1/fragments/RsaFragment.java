@@ -20,7 +20,6 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -96,7 +95,10 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
         modeToggleGroup = view.findViewById(R.id.mode_toggle_group);
         inputText = view.findViewById(R.id.input_text);
         outputText = view.findViewById(R.id.output_text);
+
+        // Hier liegt der Fehler - kein Cast zu ImageButton mehr
         copyOutputButton = view.findViewById(R.id.copy_output_button);
+
         processButton = view.findViewById(R.id.process_button);
         generateKeyButton = view.findViewById(R.id.generate_key_button);
         saveKeyButton = view.findViewById(R.id.save_key_button);
