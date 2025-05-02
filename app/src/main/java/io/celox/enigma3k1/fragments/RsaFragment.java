@@ -123,7 +123,7 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
 
         // Spinner einrichten
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(
-                getContext(), R.array.key_sizes, android.R.layout.simple_spinner_item);
+                getContext(), R.array.rsa_key_sizes, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         keySizeSpinner.setAdapter(spinnerAdapter);
 
