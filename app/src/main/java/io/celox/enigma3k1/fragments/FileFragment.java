@@ -53,7 +53,6 @@ public class FileFragment extends Fragment implements FileAdapter.FileActionList
 
     private MaterialButtonToggleGroup modeToggleGroup;
     private EditText passwordInput;
-    private ToggleButton showPasswordToggle;
     private Spinner keySizeSpinner;
     private Button generateKeyButton, pickFileButton, processButton;
     private EditText keyNameInput;
@@ -100,7 +99,7 @@ public class FileFragment extends Fragment implements FileAdapter.FileActionList
     private void initViews(View view) {
         modeToggleGroup = view.findViewById(R.id.mode_toggle_group);
         passwordInput = view.findViewById(R.id.password_input);
-        showPasswordToggle = view.findViewById(R.id.show_password_toggle);
+        // showPasswordToggle wurde entfernt und durch das integrierte Icon des TextInputLayouts ersetzt
         keySizeSpinner = view.findViewById(R.id.key_size_spinner);
         generateKeyButton = view.findViewById(R.id.generate_key_button);
         pickFileButton = view.findViewById(R.id.pick_file_button);
@@ -153,16 +152,7 @@ public class FileFragment extends Fragment implements FileAdapter.FileActionList
             }
         });
 
-        // Passwort anzeigen/verbergen
-        showPasswordToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                passwordInput.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            } else {
-                passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            }
-            // Cursor-Position erhalten
-            passwordInput.setSelection(passwordInput.getText().length());
-        });
+        // Passwort-Sichtbarkeit wird jetzt über das integrierte Icon des TextInputLayouts gesteuert
 
         // Key Size Spinner
         keySizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

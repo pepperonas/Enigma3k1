@@ -38,7 +38,6 @@ import io.celox.enigma3k1.utils.KeyStorageUtils;
 public class AesFragment extends Fragment {
 
     private EditText inputText, outputText, passwordInput, keyNameInput;
-    private ToggleButton showPasswordToggle;
     private MaterialButtonToggleGroup modeToggleGroup;
     private Button processButton, generateKeyButton, saveKeyButton;
     private com.google.android.material.button.MaterialButton copyOutputButton;
@@ -74,7 +73,7 @@ public class AesFragment extends Fragment {
         outputText = view.findViewById(R.id.output_text);
         passwordInput = view.findViewById(R.id.password_input);
         keyNameInput = view.findViewById(R.id.key_name_input);
-        showPasswordToggle = view.findViewById(R.id.show_password_toggle);
+        // showPasswordToggle wurde entfernt und durch das integrierte Icon des TextInputLayouts ersetzt
         modeToggleGroup = view.findViewById(R.id.mode_toggle_group);
         processButton = view.findViewById(R.id.process_button);
         generateKeyButton = view.findViewById(R.id.generate_key_button);
@@ -113,16 +112,7 @@ public class AesFragment extends Fragment {
             }
         });
 
-        // Passwort anzeigen/verbergen
-        showPasswordToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                passwordInput.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            } else {
-                passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            }
-            // Cursor-Position erhalten
-            passwordInput.setSelection(passwordInput.getText().length());
-        });
+        // Passwort-Sichtbarkeit wird jetzt über das integrierte Icon des TextInputLayouts gesteuert
 
         // Key Size Spinner
         keySizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

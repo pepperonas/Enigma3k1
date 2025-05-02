@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="?attr/android:windowBackground"
     android:fillViewport="true">
 
     <LinearLayout
@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:text="Modus"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textColor="@color/text_primary"
+                    android:textColor="?attr/android:textColorPrimary"
                     android:layout_marginBottom="@dimen/spacing_s" />
 
                 <com.google.android.material.button.MaterialButtonToggleGroup
@@ -43,23 +43,19 @@
 
                     <Button
                         android:id="@+id/encrypt_button"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/Widget.App.Button.Toggle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/encrypt_button"
-                        android:textColor="@color/text_primary"
-                        app:strokeColor="@color/accent" />
+                        android:text="@string/encrypt_button" />
 
                     <Button
                         android:id="@+id/decrypt_button"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/Widget.App.Button.Toggle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/decrypt_button"
-                        android:textColor="@color/text_primary"
-                        app:strokeColor="@color/accent" />
+                        android:text="@string/decrypt_button" />
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>
             </LinearLayout>
@@ -83,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:text="Verschlüsselungs-Schlüssel"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textColor="@color/text_primary"
+                    android:textColor="?attr/android:textColorPrimary"
                     android:layout_marginBottom="@dimen/spacing_s" />
 
                 <!-- Passwort Input -->
@@ -94,14 +90,12 @@
                     android:layout_marginBottom="@dimen/spacing_m">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         style="@style/Widget.App.TextInputLayout"
                         app:hintEnabled="true"
-                        app:passwordToggleEnabled="false"
-                        app:endIconMode="custom"
-                        app:endIconDrawable="@drawable/ic_shield">
+                        app:endIconMode="password_toggle"
+                        app:endIconDrawable="@drawable/toggle_password_selector">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/password_input"
@@ -111,15 +105,6 @@
                             android:inputType="textPassword"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    <ToggleButton
-                        android:id="@+id/show_password_toggle"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_marginStart="@dimen/spacing_s"
-                        android:background="@drawable/toggle_password_selector"
-                        android:textOff=""
-                        android:textOn="" />
                 </LinearLayout>
 
                 <!-- Schlüsselgröße und Generator -->
@@ -139,7 +124,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/aes_key_sizes"
                             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                            android:textColor="@color/text_secondary"
+                            android:textColor="?attr/android:textColorSecondary"
                             android:layout_marginBottom="@dimen/spacing_xs" />
 
                         <Spinner
@@ -209,7 +194,7 @@
                     android:layout_height="wrap_content"
                     android:text="Dateien"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textColor="@color/text_primary"
+                    android:textColor="?attr/android:textColorPrimary"
                     android:layout_marginBottom="@dimen/spacing_s" />
 
                 <LinearLayout
@@ -242,7 +227,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/file_no_files"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                    android:textColor="@color/text_secondary"
+                    android:textColor="?attr/android:textColorSecondary"
                     android:gravity="center"
                     android:padding="@dimen/spacing_l" />
 
@@ -263,9 +248,9 @@
             android:id="@+id/error_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/error_dark"
+            android:background="@drawable/bg_error_message"
             android:padding="@dimen/spacing_m"
-            android:textColor="@color/white"
+            android:textColor="@color/error"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:visibility="gone"
             tools:text="Fehlermeldung"
@@ -275,9 +260,9 @@
             android:id="@+id/info_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/success_dark"
+            android:background="@drawable/bg_info_message"
             android:padding="@dimen/spacing_m"
-            android:textColor="@color/white"
+            android:textColor="@color/success"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:visibility="gone"
             tools:text="Erfolgsmeldung" />
@@ -287,7 +272,8 @@
             style="@style/Widget.App.CardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_m">
+            android:layout_marginTop="@dimen/spacing_m"
+            android:layout_marginBottom="@dimen/spacing_m">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -300,7 +286,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/aes_saved_keys"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textColor="@color/text_primary"
+                    android:textColor="?attr/android:textColorPrimary"
                     android:layout_marginBottom="@dimen/spacing_m" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -316,10 +302,40 @@
                     android:layout_height="wrap_content"
                     android:text="@string/aes_no_saved_keys"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                    android:textColor="@color/text_secondary"
+                    android:textColor="?attr/android:textColorSecondary"
                     android:gravity="center"
                     android:padding="@dimen/spacing_m"
                     android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        
+        <!-- Info Section -->
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.App.CardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_m">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/file_info_title"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:textColor="?attr/android:textColorPrimary"
+                    android:layout_marginBottom="@dimen/spacing_s" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/file_info_text"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="?attr/android:textColorSecondary" />
+
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>

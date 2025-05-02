@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/background_light"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="0dp"
+    style="@style/Widget.App.CardView"
     android:layout_marginBottom="8dp">
 
     <LinearLayout
@@ -33,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/android:textColorPrimary"
                     tools:text="Mein RSA Schlüsselpaar" />
 
                 <TextView
@@ -41,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                    android:textColor="@color/text_secondary"
+                    android:textColor="?attr/android:textColorSecondary"
                     tools:text="2048 Bit • Erstellt am 01.01.2025" />
 
             </LinearLayout>

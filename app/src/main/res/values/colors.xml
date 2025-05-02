@@ -32,4 +32,6 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
+
+    <color name="text_hint_high_contrast">#9AA7B0</color>
 </resources>

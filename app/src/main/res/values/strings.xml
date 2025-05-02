@@ -75,6 +75,7 @@
     <string name="rsa_import_key">Schlüssel importieren</string>
     <string name="rsa_import_key_pair">Schlüsselpaar importieren</string>
     <string name="rsa_info_title">Hinweise zur RSA-Verschlüsselung</string>
+    <string name="rsa_info_text">• RSA ist ein asymmetrisches Verschlüsselungsverfahren, das mit zwei unterschiedlichen Schlüsseln arbeitet: einem öffentlichen und einem privaten Schlüssel.\n\n• Der öffentliche Schlüssel kann frei weitergegeben werden und dient zum Verschlüsseln von Nachrichten oder zur Verifikation von Signaturen.\n\n• Der private Schlüssel muss streng geheim gehalten werden und wird zum Entschlüsseln oder Signieren verwendet.\n\n• Je größer die Schlüssellänge, desto sicherer ist die Verschlüsselung, aber desto mehr Rechenleistung wird benötigt. 2048 Bit oder höher gelten derzeit als sicher.\n\n• RSA ist ideal für den sicheren Schlüsselaustausch und digitale Signaturen, aber weniger effizient für große Datenmengen.\n\n• In der Praxis wird RSA oft mit symmetrischen Verfahren wie AES kombiniert: RSA zum Austausch eines Sitzungsschlüssels, der dann für die eigentliche Verschlüsselung mit AES verwendet wird.</string>
 
     <!-- Caesar-Verschlüsselung -->
     <string name="caesar_description">Die Caesar-Verschlüsselung ist eine der ältesten und einfachsten Verschlüsselungstechniken. Sie funktioniert durch Verschieben jedes Buchstabens im Alphabet um eine feste Anzahl von Positionen. Die Methode ist nach Julius Caesar benannt, der sie für seine private Korrespondenz verwendete.</string>
@@ -84,6 +85,7 @@
     <string name="caesar_random_shift">Zufällige Verschiebung</string>
     <string name="caesar_brute_force">Brute Force</string>
     <string name="caesar_info_title">Wissenswertes zur Caesar-Verschlüsselung</string>
+    <string name="caesar_info_text">• Die Caesar-Verschlüsselung ist eine der ältesten bekannten Chiffriermethoden, benannt nach Julius Caesar, der sie für militärische Kommunikation nutzte.\n\n• Bei dieser einfachen Substitutionschiffre wird jeder Buchstabe im Klartext um eine feste Anzahl von Stellen im Alphabet verschoben (z.B. A→D bei einer Verschiebung von 3).\n\n• Die Sicherheit ist sehr begrenzt, da es nur 25 mögliche Schlüssel gibt (bei 26 Buchstaben im Alphabet). Mit Brute-Force-Methoden kann die Verschlüsselung leicht gebrochen werden.\n\n• Die Häufigkeitsanalyse ist eine effektive Methode, um Caesar-verschlüsselte Texte zu entschlüsseln, indem die Häufigkeit der Buchstaben analysiert wird.\n\n• Trotz ihrer Schwächen ist die Caesar-Verschlüsselung ein wichtiger Grundbaustein für das Verständnis von Kryptographie und eignet sich gut für Lernzwecke.\n\n• Für sensible Daten sollten moderne Verschlüsselungsverfahren wie AES oder RSA verwendet werden.</string>
 
     <!-- Dateiverschlüsselung -->
     <string name="file_description">Diese Funktion ermöglicht es Ihnen, Dateien mit AES-GCM zu verschlüsseln und entschlüsseln. Verschlüsselte Dateien haben die Dateiendung .enc und können später mit dem gleichen Passwort wieder entschlüsselt werden.</string>
@@ -97,6 +99,7 @@
     <string name="file_share">Teilen</string>
     <string name="file_delete">Löschen</string>
     <string name="file_info_title">Hinweise zur Dateiverschlüsselung</string>
+    <string name="file_info_text">• Diese Funktion verschlüsselt Dateien mit dem sicheren AES-GCM Algorithmus, der einen Initialization Vector (IV) sowie Authentifizierung verwendet, um maximale Sicherheit zu gewährleisten.\n\n• Verschlüsselte Dateien erhalten die Endung \".enc\" und können nur mit dem ursprünglichen Passwort bzw. Schlüssel entschlüsselt werden.\n\n• Verwende zufällig generierte Schlüssel für maximale Sicherheit, da diese wesentlich schwerer zu knacken sind als einfache Passwörter.\n\n• Die verschlüsselten Dateien enthalten alle Informationen, die zur Entschlüsselung benötigt werden (außer dem Passwort/Schlüssel), einschließlich des Initialization Vectors.\n\n• Es gibt keine Möglichkeit, verschlüsselte Dateien ohne das korrekte Passwort wiederherzustellen. Bewahre deine Schlüssel daher sicher auf!\n\n• Du kannst verschlüsselte Dateien problemlos per E-Mail oder Cloud teilen - sie bleiben sicher, solange das Passwort separat übermittelt wird.</string>
 
     <!-- Status-Meldungen -->
     <string name="status_ready">Bereit</string>
