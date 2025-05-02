@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -119,6 +120,12 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
         keyPairsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         keyAdapter = new RsaKeyAdapter(savedKeyPairs, this);
         keyPairsRecyclerView.setAdapter(keyAdapter);
+
+        // Spinner einrichten
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(
+                getContext(), R.array.key_sizes, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        keySizeSpinner.setAdapter(spinnerAdapter);
 
         // External Key Layout ausblenden
         externalKeyLayout.setVisibility(View.GONE);
@@ -588,7 +595,7 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
             showUnlockDialog(keyPair);
         } else {
             // Direkt laden
-            currentKeyPair = new String[] { keyPair.getPublicKey(), keyPair.getPrivateKey() };
+            currentKeyPair = new String[]{keyPair.getPublicKey(), keyPair.getPrivateKey()};
             showInfo("Schlüsselpaar erfolgreich geladen");
         }
     }
@@ -623,7 +630,7 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
             String privateKey = RsaUtils.decryptPrivateKey(encryptedKey, password);
 
             // Schlüsselpaar setzen
-            currentKeyPair = new String[] { keyPair.getPublicKey(), privateKey };
+            currentKeyPair = new String[]{keyPair.getPublicKey(), privateKey};
 
             showInfo("Schlüsselpaar erfolgreich entsperrt und geladen");
         } catch (Exception e) {
