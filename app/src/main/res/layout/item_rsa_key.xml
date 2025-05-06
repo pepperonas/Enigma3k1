@@ -67,39 +67,31 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/load_key_button"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.App.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/load_key"
-                android:textColor="@color/accent"
-                app:rippleColor="@color/accent_light" />
+                android:text="@string/load_key" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/export_public_button"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.App.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Public Key"
-                android:textColor="@color/accent"
-                app:rippleColor="@color/accent_light" />
+                android:text="Public Key" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/export_private_button"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.App.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Private Key"
-                android:textColor="@color/accent"
-                app:rippleColor="@color/accent_light" />
+                android:text="Private Key" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/delete_key_button"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.App.Button.TextButton.Delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/delete_key"
-                android:textColor="@color/error"
-                app:rippleColor="@color/error_light" />
+                android:text="@string/delete_key" />
 
         </LinearLayout>
 

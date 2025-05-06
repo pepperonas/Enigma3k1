@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Text Button styles with better contrast for dark/light mode -->
+    <style name="Widget.App.Button.TextButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/accent_light</item>
+        <item name="iconTint">@color/accent_light</item>
+        <item name="rippleColor">@color/accent_light</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="Widget.App.Button.TextButton.Dark" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/accent_light</item>
+        <item name="iconTint">@color/accent_light</item>
+        <item name="rippleColor">@color/accent_light</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="Widget.App.Button.TextButton.Delete" parent="Widget.App.Button.TextButton">
+        <item name="android:textColor">@color/error</item>
+        <item name="iconTint">@color/error</item>
+        <item name="rippleColor">@color/error_light</item>
+    </style>
+</resources>

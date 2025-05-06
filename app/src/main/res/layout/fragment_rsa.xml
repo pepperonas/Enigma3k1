@@ -345,12 +345,10 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/copy_output_button"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        style="@style/Widget.App.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:icon="@drawable/ic_copy"
-                        app:iconTint="@color/accent"
-                        android:textColor="@color/accent"
                         android:text="Kopieren" />
                 </LinearLayout>
 

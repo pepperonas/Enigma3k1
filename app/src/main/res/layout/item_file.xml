@@ -87,30 +87,24 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/open_button"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.App.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/file_open"
-                android:textColor="@color/accent"
-                app:rippleColor="@color/accent_light" />
+                android:text="@string/file_open" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/share_button"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.App.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/file_share"
-                android:textColor="@color/accent"
-                app:rippleColor="@color/accent_light" />
+                android:text="@string/file_share" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/delete_button"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.App.Button.TextButton.Delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/file_delete"
-                android:textColor="@color/error"
-                app:rippleColor="@color/error_light" />
+                android:text="@string/file_delete" />
 
         </LinearLayout>
 

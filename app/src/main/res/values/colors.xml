@@ -6,7 +6,7 @@
     <color name="primary_light">#3D4B62</color>
     <color name="accent">#5B86E5</color>
     <color name="accent_light">#A0BBFF</color>
-    <color name="accent_dark">#3959B5</color>
+    <color name="accent_dark">#0D47A1</color>
 
     <!-- Text Colors -->
     <color name="text_primary">#FFFFFF</color>
@@ -41,4 +41,6 @@
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
     <color name="shadow">#40000000</color>
+    <color name="dark_text_on_light">#000A1C</color>
+    <color name="light_text_on_dark">#F0F8FF</color>
 </resources>

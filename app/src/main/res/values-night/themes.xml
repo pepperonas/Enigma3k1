@@ -3,16 +3,23 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Enigma3k1" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimary">@color/accent_light</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorAccent">@color/accent_light</item>
         <item name="android:windowBackground">@color/background</item>
         <item name="android:statusBarColor">@color/primary_dark</item>
         <item name="android:navigationBarColor">@color/primary_dark</item>
+        <item name="colorSurface">@color/background_light</item>
 
         <!-- Text colors -->
-        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorPrimary">@color/light_text_on_dark</item>
         <item name="android:textColorSecondary">@color/text_secondary</item>
         <item name="android:textColorHint">@color/text_hint_high_contrast</item>
+        
+        <!-- Button style overrides -->
+        <item name="materialButtonStyle">@style/Widget.App.Button.DarkOverride</item>
+        
+        <!-- Widget style overrides -->
+        <item name="textInputStyle">@style/Widget.App.TextInputLayout.DarkOverride</item>
     </style>
 </resources>

@@ -53,15 +53,14 @@
                     android:layout_height="wrap_content"
                     android:text="Laden"
                     android:layout_marginEnd="8dp"
-                    style="@style/Widget.MaterialComponents.Button.TextButton" />
+                    style="@style/Widget.App.Button.TextButton" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/delete_key_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Löschen"
-                    app:backgroundTint="@color/error"
-                    style="@style/Widget.MaterialComponents.Button.TextButton" />
+                    style="@style/Widget.App.Button.TextButton.Delete" />
 
             </LinearLayout>
 
