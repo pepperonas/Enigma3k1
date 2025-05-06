@@ -20,10 +20,9 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
+                style="@style/Widget.App.Toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/primary"
-                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
+                android:layout_height="?attr/actionBarSize">
 
                 <TextView
                     android:id="@+id/toolbar_title"
@@ -50,14 +49,12 @@
     <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
+        style="@style/Widget.App.NavigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_menu"
-        app:itemIconTint="@color/accent"
-        app:itemTextColor="@color/text_primary"
-        android:background="@color/background" />
+        app:menu="@menu/drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

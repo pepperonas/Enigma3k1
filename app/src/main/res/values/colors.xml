@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#2C2E3B</color>
-    <color name="primary_dark">#232534</color>
-    <color name="primary_light">#3D3F52</color>
-    <color name="accent">#536DFE</color>
-    <color name="accent_light">#8C9EFF</color>
-    <color name="accent_dark">#3D5AFE</color>
+    <!-- Primary Colors -->
+    <color name="primary">#2F3B52</color>
+    <color name="primary_dark">#1E2736</color>
+    <color name="primary_light">#3D4B62</color>
+    <color name="accent">#5B86E5</color>
+    <color name="accent_light">#A0BBFF</color>
+    <color name="accent_dark">#3959B5</color>
 
     <!-- Text Colors -->
     <color name="text_primary">#FFFFFF</color>
-    <color name="text_secondary">#B0BEC5</color>
-    <color name="text_hint">#78909C</color>
+    <color name="text_secondary">#B8C3D8</color>
+    <color name="text_hint">#8C98AF</color>
+    <color name="text_hint_high_contrast">#A5B0C6</color>
+    <color name="text_on_accent">#FFFFFF</color>
 
     <!-- Background Colors -->
-    <color name="background">#252836</color>
-    <color name="background_light">#333646</color>
-    <color name="card_background">#2A2C3A</color>
-    <color name="divider">#424242</color>
+    <color name="background">#212B3E</color>
+    <color name="background_light">#2C3A50</color>
+    <color name="card_background">#283244</color>
+    <color name="divider">#3A4758</color>
+    <color name="surface">#2A3447</color>
 
     <!-- Status Colors -->
     <color name="success">#4CAF50</color>
@@ -26,12 +30,15 @@
     <color name="error_light">#EF9A9A</color>
     <color name="error_dark">#C62828</color>
     <color name="warning">#FFC107</color>
+    <color name="warning_light">#FFE082</color>
+    <color name="warning_dark">#FF8F00</color>
     <color name="info">#2196F3</color>
+    <color name="info_light">#90CAF9</color>
+    <color name="info_dark">#1565C0</color>
 
     <!-- Additional Colors -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
-
-    <color name="text_hint_high_contrast">#9AA7B0</color>
+    <color name="shadow">#40000000</color>
 </resources>

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base App style -->
+    <style name="Widget.App" parent="android:Widget">
+        <!-- Base style for all Widget.App.* styles -->
+    </style>
+    
     <!-- Button style -->
     <style name="Widget.App.Button" parent="Widget.Material3.Button">
         <item name="android:textColor">@color/white</item>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation drawer styles -->
+    <style name="Widget.App.NavigationView" parent="Widget.Material3.NavigationView">
+        <item name="itemIconTint">@color/nav_icon_color</item>
+        <item name="itemTextColor">@color/nav_text_color</item>
+        <item name="itemIconPadding">16dp</item>
+        <item name="itemHorizontalPadding">24dp</item>
+        <item name="itemShapeFillColor">@color/nav_item_background_color</item>
+        <item name="android:background">@color/background</item>
+    </style>
+
+    <!-- Toolbar style -->
+    <style name="Widget.App.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/primary</item>
+        <item name="titleTextColor">@color/white</item>
+        <item name="subtitleTextColor">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="elevation">4dp</item>
+    </style>
+
+</resources>

@@ -21,6 +21,16 @@
     <string name="cancel">Abbrechen</string>
     <string name="ok">OK</string>
 
+    <!-- Neue standardisierte UI-Strings -->
+    <string name="mode_title">Modus</string>
+    <string name="input_output_title">Eingabe und Ausgabe</string>
+    <string name="key_settings_title">Schlüssel-Einstellungen</string>
+    <string name="advanced_options">Erweiterte Optionen</string>
+    <string name="actions">Aktionen</string>
+    <string name="process">Verarbeiten</string>
+    <string name="save_options">Speichern</string>
+    <string name="tools">Werkzeuge</string>
+
     <!-- Hinweise -->
     <string name="hint_key_name">Schlüsselname</string>
     <string name="hint_password">Passwort</string>
@@ -157,9 +167,4 @@
     <string name="pick_files_to_encrypt">Dartei zum Verschlüsseln auswählen</string>
     <string name="pick_files_to_decrypt">Dartei zum Entschlüsseln auswählen</string>
     <string name="enter_password_to_unlock">Gib das Passwort ein, um den geschützten Schlüssel zu entsperren</string>
-
-    <!-- Füge diese Einträge zu deiner strings.xml Datei hinzu -->
-
-
-
 </resources>

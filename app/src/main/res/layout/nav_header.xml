@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
-    android:background="@color/primary_dark"
+    android:layout_height="176dp"
+    android:background="@drawable/nav_header_background"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingLeft="@dimen/spacing_m"
@@ -14,31 +14,30 @@
 
     <ImageView
         android:id="@+id/nav_header_logo"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:contentDescription="@string/app_name"
         android:paddingTop="@dimen/spacing_s"
-        app:srcCompat="@drawable/ic_shield" />
+        app:srcCompat="@drawable/ic_shield"
+        android:tint="@color/white"
+        android:elevation="2dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/spacing_m"
         android:text="@string/app_name"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/nav_header_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Moderne Verschlüsselungsapp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-        android:textColor="@color/text_secondary" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/spacing_m"
-        android:background="@color/divider" />
+        android:text="Sichere Verschlüsselung"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textColor="@color/white"
+        android:alpha="0.8" />
 
 </LinearLayout>

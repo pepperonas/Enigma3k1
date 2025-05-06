@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Standardized Section Card -->
+    <style name="Widget.App.SectionCard" parent="Widget.App.CardView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_m</item>
+    </style>
+    
+    <!-- Section Header -->
+    <style name="Widget.App.SectionHeader" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/android:textColorPrimary</item>
+        <item name="android:paddingTop">@dimen/spacing_s</item>
+        <item name="android:paddingBottom">@dimen/spacing_s</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_s</item>
+        <item name="android:background">@color/primary</item>
+        <item name="android:paddingStart">@dimen/spacing_m</item>
+        <item name="android:paddingEnd">@dimen/spacing_m</item>
+    </style>
+    
+    <!-- Section Content -->
+    <style name="Widget.App.SectionContent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/spacing_m</item>
+    </style>
+    
+    <!-- Mode Selector -->
+    <style name="Widget.App.ModeSelector" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- Process Button -->
+    <style name="Widget.App.ProcessButton" parent="Widget.App.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">@dimen/spacing_s</item>
+        <item name="android:layout_marginTop">@dimen/spacing_m</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:elevation">2dp</item>
+    </style>
+    
+    <!-- Input Field Label -->
+    <style name="Widget.App.InputLabel" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/android:textColorSecondary</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+
+    <!-- Consistent TextField -->
+    <style name="Widget.App.TextField" parent="Widget.App.TextInputLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_m</item>
+        <item name="boxStrokeWidth">1dp</item>
+    </style>
+
+    <!-- Action buttons container -->
+    <style name="Widget.App.ActionButtonContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">end</item>
+        <item name="android:layout_marginTop">@dimen/spacing_s</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_m</item>
+    </style>
+    
+    <!-- Status Messages -->
+    <style name="Widget.App.StatusMessage">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/spacing_s</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_m</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">@dimen/spacing_s</item>
+    </style>
+    
+    <style name="Widget.App.StatusMessage.Error">
+        <item name="android:background">@drawable/bg_error_message</item>
+        <item name="android:textColor">@color/error</item>
+    </style>
+    
+    <style name="Widget.App.StatusMessage.Info">
+        <item name="android:background">@drawable/bg_info_message</item>
+        <item name="android:textColor">@color/success</item>
+    </style>
+
+    <!-- Bottom Action Bar -->
+    <style name="Widget.App.BottomActionBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">@dimen/spacing_m</item>
+        <item name="android:background">@color/primary</item>
+        <item name="android:elevation">8dp</item>
+    </style>
+</resources>
