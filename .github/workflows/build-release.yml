@@ -51,24 +51,12 @@ jobs:
           echo "APK-Pfad: $APK_PATH"
           echo "path=$APK_PATH" >> $GITHUB_OUTPUT
           
-      - name: Create Release Tag
-        id: create_tag
-        run: |
-          TAG_NAME=v${{ github.event.inputs.version_name }}
-          echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
-        
-      - name: Create GitHub Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
+      # Upload Release APK as artifact
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v3
         with:
-          tag_name: ${{ steps.create_tag.outputs.tag }}
-          name: Release ${{ github.event.inputs.version_name }}
-          files: ${{ steps.apk-path.outputs.path }}
-          draft: false
-          prerelease: false
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: release-apk-${{ github.event.inputs.version_name }}
+          path: ${{ steps.apk-path.outputs.path }}
           
       # Version changes aren't committed automatically to avoid permission issues
       # You'll need to manually update the version in build.gradle locally
