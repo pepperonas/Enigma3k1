@@ -257,13 +257,34 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
         }
 
         try {
-            // PEM-Format entfernen, wenn vorhanden
-            if (keyText.contains("-----BEGIN PUBLIC KEY-----")) {
-                keyText = RsaUtils.extractBase64FromPem(keyText);
+            // PEM-Format vorverarbeiten, wenn vorhanden
+            String processedKeyText = keyText;
+            
+            // Verschiedene PEM-Header erkennen
+            if (keyText.contains("-----BEGIN") && keyText.contains("-----END")) {
+                if (!keyText.contains("PUBLIC KEY")) {
+                    showError("Der Schlüssel scheint kein öffentlicher Schlüssel zu sein. Bitte nur PUBLIC KEY einfügen.");
+                    externalKeyValid = false;
+                    externalKeyStatusText.setText("Kein öffentlicher Schlüssel");
+                    externalKeyStatusText.setTextColor(getResources().getColor(R.color.error));
+                    externalKeyStatusText.setVisibility(View.VISIBLE);
+                    return;
+                }
+                processedKeyText = RsaUtils.extractBase64FromPem(keyText);
             }
-
+            
+            // Base64-Validierung und Bereinigung
+            processedKeyText = processedKeyText.replaceAll("\\s", ""); // Whitespace entfernen
+            
+            // Neuer Versuch, den bereinigten Schlüssel zu validieren
             // Schlüssel validieren
-            if (RsaUtils.isValidPublicKey(keyText)) {
+            if (RsaUtils.isValidPublicKey(processedKeyText)) {
+                // Erfolgreich validiert, jetzt speichern wir den verarbeiteten Schlüssel zurück ins Eingabefeld
+                if (processedKeyText.length() != keyText.length()) {
+                    // Wenn der Schlüssel bereinigt wurde, aktualisieren wir das Eingabefeld
+                    externalKeyInput.setText(processedKeyText);
+                }
+                
                 externalKeyValid = true;
                 externalKeyStatusText.setText("Externer Schlüssel importiert ✓");
                 externalKeyStatusText.setTextColor(getResources().getColor(R.color.success));
@@ -360,12 +381,25 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
 
                 try {
                     String keyText = externalKeyInput.getText().toString().trim();
-                    if (keyText.contains("-----BEGIN PUBLIC KEY-----")) {
+                    
+                    // Sicher verarbeiten, falls es ein PEM-Format ist
+                    if (keyText.contains("-----BEGIN") && keyText.contains("PUBLIC KEY")) {
                         keyText = RsaUtils.extractBase64FromPem(keyText);
+                    }
+                    
+                    // Whitespace bereinigen
+                    keyText = keyText.replaceAll("\\s", "");
+                    
+                    // Erneut validieren, um sicherzustellen, dass der Schlüssel gültig ist
+                    if (!RsaUtils.isValidPublicKey(keyText)) {
+                        showError("Der externe Schlüssel ist ungültig. Bitte importieren Sie ihn erneut.");
+                        externalKeyValid = false;
+                        return;
                     }
 
                     String encrypted = RsaUtils.encrypt(input, keyText);
                     outputText.setText(encrypted);
+                    showInfo("Text erfolgreich verschlüsselt");
                 } catch (Exception e) {
                     showError("Verschlüsselung fehlgeschlagen: " + e.getMessage());
                 }
@@ -519,84 +553,102 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_key_import, null);
         final EditText nameInput = dialogView.findViewById(R.id.key_name_input);
         
-        new AlertDialog.Builder(requireContext())
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
                 .setTitle("Öffentlichen Schlüssel importieren")
                 .setView(dialogView)
-                .setPositiveButton("Importieren", (dialog, which) -> {
-                    String name = nameInput.getText().toString();
-                    
-                    if (name.isEmpty()) {
-                        showError("Bitte gib einen Namen für den Schlüssel ein");
-                        return;
-                    }
-                    
-                    // Schlüsseltext holen
-                    String keyText = externalKeyInput.getText().toString().trim();
-                    
-                    if (keyText.isEmpty()) {
-                        showError("Bitte gib zuerst einen öffentlichen Schlüssel ein");
-                        return;
-                    }
-                    
-                    try {
-                        // PEM-Format verarbeiten, wenn vorhanden
-                        if (keyText.contains("-----BEGIN PUBLIC KEY-----")) {
-                            keyText = RsaUtils.extractBase64FromPem(keyText);
-                        }
-                        
-                        // Schlüssel validieren
-                        if (!RsaUtils.isValidPublicKey(keyText)) {
-                            showError("Der eingegebene Text ist kein gültiger öffentlicher Schlüssel");
-                            return;
-                        }
-                        
-                        // Neues RsaKeyPair-Objekt erstellen (nur mit public key)
-                        RsaKeyPair keyPair = new RsaKeyPair();
-                        keyPair.setId(String.valueOf(System.currentTimeMillis()));
-                        keyPair.setName(name + " (nur public)");
-                        keyPair.setPublicKey(keyText);
-                        keyPair.setPrivateKey(""); // Leerer private key
-                        keyPair.setEncrypted(false);
-                        keyPair.setKeySize(2048); // Standardgröße, da wir die tatsächliche nicht kennen
-                        keyPair.setCreatedAt(new Date());
-                        
-                        // Schlüssel speichern
-                        KeyStorageUtils.saveRsaKeyPair(getContext(), keyPair);
-                        loadSavedKeyPairs();
-                        
-                        // Feedback anzeigen
-                        String successMessage = "Öffentlicher Schlüssel \"" + name + "\" erfolgreich importiert";
-                        showInfo(successMessage);
-                        UiUtils.showToast(requireContext(), "Schlüssel importiert ✓");
-                        
-                        // Erfolgsinfo im Statustext anzeigen
-                        externalKeyStatusText.setText("Importiert: " + name + " ✓");
-                        externalKeyStatusText.setTextColor(getResources().getColor(R.color.success));
-                        externalKeyStatusText.setVisibility(View.VISIBLE);
-                        
-                        // Nach 3 Sekunden das Eingabefeld leeren
-                        new Handler().postDelayed(() -> {
-                            if (isAdded()) {
-                                // Eingabefeld leeren
-                                externalKeyInput.setText("");
-                                externalKeyValid = false;
-                                externalKeyStatusText.setVisibility(View.GONE);
-                            }
-                        }, 3000);
-                        
-                        // Den importierten öffentlichen Schlüssel für die Verschlüsselung auswählen
-                        if (currentMode.equals("encrypt")) {
-                            useExternalKeyCheckbox.setChecked(true);
-                            useExternalKey = true;
-                            externalKeyValid = true;
-                        }
-                        
-                    } catch (Exception e) {
-                        showError("Fehler beim Importieren: " + e.getMessage());
-                    }
-                })
+                .setPositiveButton("Importieren", null) // Wird unten überschrieben
                 .setNegativeButton("Abbrechen", null)
-                .show();
+                .create();
+        
+        dialog.show();
+        
+        // Button-Click-Handler überschreiben, damit der Dialog bei Fehlern nicht geschlossen wird
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            String name = nameInput.getText().toString().trim();
+            
+            if (name.isEmpty()) {
+                showError("Bitte gib einen Namen für den Schlüssel ein");
+                return;
+            }
+            
+            // Schlüsseltext holen
+            String keyText = externalKeyInput.getText().toString().trim();
+            
+            if (keyText.isEmpty()) {
+                showError("Bitte gib zuerst einen öffentlichen Schlüssel ein");
+                return;
+            }
+            
+            try {
+                // PEM-Format vorverarbeiten, wenn vorhanden
+                String processedKeyText = keyText;
+                
+                // Verschiedene PEM-Header erkennen
+                if (keyText.contains("-----BEGIN") && keyText.contains("-----END")) {
+                    if (!keyText.contains("PUBLIC KEY")) {
+                        showError("Der Schlüssel scheint kein öffentlicher Schlüssel zu sein. Bitte nur PUBLIC KEY importieren.");
+                        return;
+                    }
+                    processedKeyText = RsaUtils.extractBase64FromPem(keyText);
+                }
+                
+                // Base64-Validierung und Bereinigung
+                processedKeyText = processedKeyText.replaceAll("\\s", ""); // Whitespace entfernen
+                
+                // Schlüssel validieren
+                if (!RsaUtils.isValidPublicKey(processedKeyText)) {
+                    showError("Der eingegebene Text ist kein gültiger öffentlicher Schlüssel");
+                    return;
+                }
+                
+                // Neues RsaKeyPair-Objekt erstellen (nur mit public key)
+                RsaKeyPair keyPair = new RsaKeyPair();
+                keyPair.setId(String.valueOf(System.currentTimeMillis()));
+                keyPair.setName(name + " (nur public)");
+                keyPair.setPublicKey(processedKeyText);
+                keyPair.setPrivateKey(""); // Leerer private key
+                keyPair.setEncrypted(false);
+                keyPair.setKeySize(2048); // Standardgröße, da wir die tatsächliche nicht kennen
+                keyPair.setCreatedAt(new Date());
+                
+                // Schlüssel speichern
+                KeyStorageUtils.saveRsaKeyPair(getContext(), keyPair);
+                loadSavedKeyPairs();
+                
+                // Feedback anzeigen
+                String successMessage = "Öffentlicher Schlüssel \"" + name + "\" erfolgreich importiert";
+                showInfo(successMessage);
+                UiUtils.showToast(requireContext(), "Schlüssel importiert ✓");
+                
+                // Erfolgsinfo im Statustext anzeigen
+                externalKeyStatusText.setText("Importiert: " + name + " ✓");
+                externalKeyStatusText.setTextColor(getResources().getColor(R.color.success));
+                externalKeyStatusText.setVisibility(View.VISIBLE);
+                
+                // Den importierten öffentlichen Schlüssel für die Verschlüsselung auswählen
+                if (currentMode.equals("encrypt")) {
+                    useExternalKeyCheckbox.setChecked(true);
+                    useExternalKey = true;
+                    externalKeyValid = true;
+                }
+                
+                // Nach 3 Sekunden das Eingabefeld leeren
+                new Handler().postDelayed(() -> {
+                    if (isAdded()) {
+                        // Eingabefeld leeren
+                        externalKeyInput.setText("");
+                        externalKeyValid = false;
+                        externalKeyStatusText.setVisibility(View.GONE);
+                    }
+                }, 3000);
+                
+                // Dialog schließen
+                dialog.dismiss();
+                
+            } catch (Exception e) {
+                showError("Fehler beim Importieren: " + e.getMessage());
+            }
+        });
     }
 
     private void exportPublicKey() {
