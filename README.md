@@ -24,7 +24,7 @@ und Dateien, inklusive Schlüsselverwaltung.
 
 *Screenshots werden hinzugefügt*
 
-## Anforderungen
+## Anforderich ungen
 
 - Android 5.0 (API Level 21) oder höher
 - Berechtigungen für Dateizugriff bei Verwendung der Dateiverschlüsselung
