@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -159,6 +160,12 @@ public class AesFragment extends Fragment {
                     }
                 }
                 showInfo("Schlüssel geladen");
+                
+                // Toast-Nachricht mit Erfolgsmeldung anzeigen
+                Context context = getContext();
+                if (context != null) {
+                    Toast.makeText(context, "Schlüssel erfolgreich geladen ✓", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case "export":

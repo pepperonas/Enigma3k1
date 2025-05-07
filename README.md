@@ -61,6 +61,32 @@ und Dateien, inklusive Schlüsselverwaltung.
 3. Verschlüsselte Dateien erhalten die Endung ".enc"
 4. Verschlüsselte Dateien können innerhalb der App geöffnet oder geteilt werden
 
+## GitHub Actions Workflows
+
+### Release-Build erstellen
+
+Um eine neue Release-Version der App zu erstellen:
+
+1. Gehe zu "Actions" > "Build Release APK" auf GitHub
+2. Klicke auf "Run workflow"
+3. Gib die neue Versionsnummer (z.B. "1.0.0") und den Versionscode (z.B. "2") ein
+4. Klicke auf "Run workflow"
+
+Der Workflow wird automatisch:
+- Die Version in `build.gradle` aktualisieren
+- Eine Release-APK erstellen
+- Einen Git-Tag für die Version anlegen
+- Ein GitHub Release mit der APK erstellen
+
+### Debug-Build erstellen
+
+Für einen schnellen Debug-Build ohne Versionsaktualisierung:
+
+1. Gehe zu "Actions" > "Build Debug APK" auf GitHub
+2. Klicke auf "Run workflow"
+
+Die Debug-APK wird als Artefakt im Workflow bereitgestellt.
+
 ## Technische Details
 
 Die App nutzt folgende kryptografische Verfahren:

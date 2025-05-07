@@ -632,9 +632,17 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
             // Schlüsselpaar setzen
             currentKeyPair = new String[]{keyPair.getPublicKey(), privateKey};
 
+            // Info-Meldung anzeigen
             showInfo("Schlüsselpaar erfolgreich entsperrt und geladen");
+            
+            // Zusätzlich Toast anzeigen
+            UiUtils.showToast(requireContext(), "Passwort korrekt ✓");
         } catch (Exception e) {
+            // Fehlermeldung anzeigen
             showError("Falsches Passwort oder beschädigter Schlüssel");
+            
+            // Zusätzlich Toast anzeigen
+            UiUtils.showToast(requireContext(), "Falsches Passwort ✗");
         }
     }
 

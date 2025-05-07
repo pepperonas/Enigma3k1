@@ -557,6 +557,9 @@ public class FileFragment extends Fragment implements FileAdapter.FileActionList
                         }
                     }
                     showInfo("Schlüssel geladen");
+                    
+                    // Toast-Nachricht mit Erfolgsmeldung anzeigen
+                    Toast.makeText(requireContext(), "Schlüssel erfolgreich geladen ✓", Toast.LENGTH_SHORT).show();
                 });
 
                 deleteButton.setOnClickListener(v -> {
