@@ -74,10 +74,10 @@ Um eine neue Release-Version der App zu erstellen:
 
 Der Workflow wird automatisch:
 - Eine Release-APK mit der angegebenen Versionsnummer erstellen
-- Die APK als Artifact im Workflow speichern
+- Die gebaute APK-Datei im Build-Log anzeigen
 
 **Nach dem Build:**
-1. Lade die APK von der Actions-Seite unter "Artifacts" herunter
+1. Baue die APK auch lokal mit `./gradlew assembleRelease`
 2. Aktualisiere die Versionsnummer in `app/build.gradle` manuell und committe die Änderung
 3. Wenn gewünscht, kannst du ein manuelles GitHub Release erstellen und die APK hochladen
 
