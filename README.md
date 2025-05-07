@@ -63,23 +63,24 @@ und Dateien, inklusive Schlüsselverwaltung.
 
 ## GitHub Actions Workflows
 
-### Release-Build erstellen
+### Release-Build erstellen und veröffentlichen
 
-Um eine neue Release-Version der App zu erstellen:
+Um eine neue Release-Version der App zu erstellen und automatisch zu veröffentlichen:
 
-1. Gehe zu "Actions" > "Build Release APK" auf GitHub
+1. Gehe zu "Actions" > "Build and Release APK" auf GitHub
 2. Klicke auf "Run workflow"
 3. Gib die neue Versionsnummer (z.B. "1.0.0") und den Versionscode (z.B. "2") ein
-4. Klicke auf "Run workflow"
+4. Optional: Füge Release-Notes hinzu, um die Änderungen zu beschreiben
+5. Klicke auf "Run workflow"
 
 Der Workflow wird automatisch:
 - Eine Release-APK mit der angegebenen Versionsnummer erstellen
-- Die gebaute APK-Datei im Build-Log anzeigen
+- Ein GitHub Release mit der angegebenen Version erstellen
+- Die APK-Datei im Release anhängen, sodass sie heruntergeladen werden kann
 
 **Nach dem Build:**
-1. Baue die APK auch lokal mit `./gradlew assembleRelease`
-2. Aktualisiere die Versionsnummer in `app/build.gradle` manuell und committe die Änderung
-3. Wenn gewünscht, kannst du ein manuelles GitHub Release erstellen und die APK hochladen
+Aktualisiere die Versionsnummer in `app/build.gradle` manuell und committe die Änderung, 
+damit dein Repository auf dem neuesten Stand bleibt. Die Release-Version wurde bereits erstellt.
 
 ### Debug-Build erstellen
 

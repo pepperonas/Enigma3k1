@@ -1,4 +1,4 @@
-name: Build Release APK
+name: Build and Release APK
 
 # Workflow wird manuell ausgelöst
 on:
@@ -11,10 +11,16 @@ on:
         description: 'Version Code (Integer)'
         required: true
         default: '1'
+      release_notes:
+        description: 'Release Notes'
+        required: false
+        default: 'New release'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -44,10 +50,21 @@ jobs:
       - name: Build Release APK
         run: ./gradlew assembleRelease
         
-      - name: List built APKs
+      - name: Find APK path
+        id: find-apk
         run: |
-          echo "== Built APKs =="
-          find app/build/outputs/apk/release -name "*.apk" -ls
+          APK_PATH=$(find app/build/outputs/apk/release -name "*.apk" | head -n 1)
+          echo "APK-Pfad: $APK_PATH"
+          echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
           
-      # Version changes aren't committed automatically to avoid permission issues
-      # You'll need to manually update the version in build.gradle locally
+      - name: Create GitHub Release
+        id: create_release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ github.event.inputs.version_name }}
+          name: Release ${{ github.event.inputs.version_name }}
+          body: ${{ github.event.inputs.release_notes }}
+          draft: false
+          prerelease: false
+          artifacts: ${{ steps.find-apk.outputs.apk_path }}
+          token: ${{ secrets.GITHUB_TOKEN }}
