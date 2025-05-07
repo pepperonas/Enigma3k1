@@ -13,13 +13,13 @@
             android:icon="@drawable/ic_key"
             android:title="RSA" />
         <item
-            android:id="@+id/nav_caesar"
-            android:icon="@drawable/ic_lock"
-            android:title="Caesar" />
-        <item
             android:id="@+id/nav_files"
             android:icon="@drawable/ic_file"
             android:title="Dateien" />
+        <item
+            android:id="@+id/nav_caesar"
+            android:icon="@drawable/ic_lock"
+            android:title="Caesar" />
     </group>
 
     <item android:title="Schlüsselverwaltung">

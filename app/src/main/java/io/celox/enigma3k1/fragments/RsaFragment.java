@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -109,12 +110,30 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
         keyNameInput = view.findViewById(R.id.key_name_input);
         importExternalKeyButton = view.findViewById(R.id.import_external_key_button);
         importExternalFileButton = view.findViewById(R.id.import_external_file_button);
+        Button pasteClipboardButton = view.findViewById(R.id.paste_clipboard_button);
         keySizeSpinner = view.findViewById(R.id.key_size_spinner);
         keyPairsRecyclerView = view.findViewById(R.id.key_pairs_recycler);
         errorText = view.findViewById(R.id.error_text);
         infoText = view.findViewById(R.id.info_text);
         externalKeyStatusText = view.findViewById(R.id.external_key_status);
         generatingProgress = view.findViewById(R.id.generating_progress);
+        
+        // Paste from Clipboard Button
+        pasteClipboardButton.setOnClickListener(v -> {
+            ClipboardManager clipboard = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            if (clipboard.hasPrimaryClip() && clipboard.getPrimaryClip() != null) {
+                ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
+                String text = item.getText() != null ? item.getText().toString() : "";
+                if (!text.isEmpty()) {
+                    externalKeyInput.setText(text);
+                    importExternalKey();
+                } else {
+                    showError("Zwischenablage enthält keinen Text");
+                }
+            } else {
+                showError("Zwischenablage ist leer");
+            }
+        });
 
         // RecyclerView einrichten
         keyPairsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -184,6 +203,7 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
                 externalKeyValid = false;
             }
         });
+        
 
         // Import External Key File Button
         importExternalFileButton.setOnClickListener(v -> {
@@ -495,8 +515,88 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
     }
 
     private void importKeyPair() {
-        // TODO: Implementieren, wenn Datei-Import benötigt wird
-        showInfo("Import-Funktion wird in einer späteren Version implementiert");
+        // Dialog anzeigen um einen Namen für den zu importierenden Schlüssel einzugeben
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_key_import, null);
+        final EditText nameInput = dialogView.findViewById(R.id.key_name_input);
+        
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Öffentlichen Schlüssel importieren")
+                .setView(dialogView)
+                .setPositiveButton("Importieren", (dialog, which) -> {
+                    String name = nameInput.getText().toString();
+                    
+                    if (name.isEmpty()) {
+                        showError("Bitte gib einen Namen für den Schlüssel ein");
+                        return;
+                    }
+                    
+                    // Schlüsseltext holen
+                    String keyText = externalKeyInput.getText().toString().trim();
+                    
+                    if (keyText.isEmpty()) {
+                        showError("Bitte gib zuerst einen öffentlichen Schlüssel ein");
+                        return;
+                    }
+                    
+                    try {
+                        // PEM-Format verarbeiten, wenn vorhanden
+                        if (keyText.contains("-----BEGIN PUBLIC KEY-----")) {
+                            keyText = RsaUtils.extractBase64FromPem(keyText);
+                        }
+                        
+                        // Schlüssel validieren
+                        if (!RsaUtils.isValidPublicKey(keyText)) {
+                            showError("Der eingegebene Text ist kein gültiger öffentlicher Schlüssel");
+                            return;
+                        }
+                        
+                        // Neues RsaKeyPair-Objekt erstellen (nur mit public key)
+                        RsaKeyPair keyPair = new RsaKeyPair();
+                        keyPair.setId(String.valueOf(System.currentTimeMillis()));
+                        keyPair.setName(name + " (nur public)");
+                        keyPair.setPublicKey(keyText);
+                        keyPair.setPrivateKey(""); // Leerer private key
+                        keyPair.setEncrypted(false);
+                        keyPair.setKeySize(2048); // Standardgröße, da wir die tatsächliche nicht kennen
+                        keyPair.setCreatedAt(new Date());
+                        
+                        // Schlüssel speichern
+                        KeyStorageUtils.saveRsaKeyPair(getContext(), keyPair);
+                        loadSavedKeyPairs();
+                        
+                        // Feedback anzeigen
+                        String successMessage = "Öffentlicher Schlüssel \"" + name + "\" erfolgreich importiert";
+                        showInfo(successMessage);
+                        UiUtils.showToast(requireContext(), "Schlüssel importiert ✓");
+                        
+                        // Erfolgsinfo im Statustext anzeigen
+                        externalKeyStatusText.setText("Importiert: " + name + " ✓");
+                        externalKeyStatusText.setTextColor(getResources().getColor(R.color.success));
+                        externalKeyStatusText.setVisibility(View.VISIBLE);
+                        
+                        // Nach 3 Sekunden das Eingabefeld leeren
+                        new Handler().postDelayed(() -> {
+                            if (isAdded()) {
+                                // Eingabefeld leeren
+                                externalKeyInput.setText("");
+                                externalKeyValid = false;
+                                externalKeyStatusText.setVisibility(View.GONE);
+                            }
+                        }, 3000);
+                        
+                        // Den importierten öffentlichen Schlüssel für die Verschlüsselung auswählen
+                        if (currentMode.equals("encrypt")) {
+                            useExternalKeyCheckbox.setChecked(true);
+                            useExternalKey = true;
+                            externalKeyValid = true;
+                        }
+                        
+                    } catch (Exception e) {
+                        showError("Fehler beim Importieren: " + e.getMessage());
+                    }
+                })
+                .setNegativeButton("Abbrechen", null)
+                .show();
     }
 
     private void exportPublicKey() {
@@ -575,6 +675,10 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
                 loadKeyPair(keyPair);
                 break;
 
+            case "copy_public":
+                copyPublicKeyToClipboard(keyPair);
+                break;
+
             case "export_public":
                 exportPublicKey(keyPair);
                 break;
@@ -586,6 +690,28 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
             case "delete":
                 deleteKeyPair(keyPair);
                 break;
+        }
+    }
+    
+    /**
+     * Kopiert den öffentlichen Schlüssel als Text in die Zwischenablage
+     */
+    private void copyPublicKeyToClipboard(RsaKeyPair keyPair) {
+        try {
+            // PEM-Format erstellen
+            String pemPublicKey = RsaUtils.publicKeyToPem(keyPair.getPublicKey());
+            
+            // In die Zwischenablage kopieren
+            ClipboardManager clipboard = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("RSA Public Key", pemPublicKey);
+            clipboard.setPrimaryClip(clip);
+            
+            showInfo("Öffentlicher Schlüssel in Zwischenablage kopiert");
+            
+            // Zusätzlich Toast anzeigen
+            UiUtils.showToast(requireContext(), "Public Key kopiert ✓");
+        } catch (Exception e) {
+            showError("Fehler beim Kopieren des Schlüssels: " + e.getMessage());
         }
     }
 

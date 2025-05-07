@@ -105,7 +105,7 @@ public class RsaKeyAdapter extends RecyclerView.Adapter<RsaKeyAdapter.KeyViewHol
 
             exportPublicButton.setOnClickListener(v -> {
                 if (listener != null) {
-                    listener.onKeyAction(keyPair, "export_public");
+                    listener.onKeyAction(keyPair, "copy_public");
                 }
             });
 

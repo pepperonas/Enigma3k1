@@ -58,12 +58,13 @@
 
         </LinearLayout>
 
-        <!-- Aktionsbuttons -->
+        <!-- Hauptaktionsbuttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="end">
+            android:gravity="start"
+            android:layout_marginBottom="8dp">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/load_key_button"
@@ -77,6 +78,7 @@
                 style="@style/Widget.App.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:icon="@drawable/ic_content_copy"
                 android:text="Public Key" />
 
             <com.google.android.material.button.MaterialButton
@@ -86,11 +88,21 @@
                 android:layout_height="wrap_content"
                 android:text="Private Key" />
 
+        </LinearLayout>
+        
+        <!-- Admin-Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/delete_key_button"
-                style="@style/Widget.App.Button.TextButton.Delete"
+                style="@style/Widget.App.Button.Delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:icon="@drawable/ic_delete"
                 android:text="@string/delete_key" />
 
         </LinearLayout>

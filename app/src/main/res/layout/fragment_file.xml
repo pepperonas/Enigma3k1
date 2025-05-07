@@ -135,7 +135,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="@dimen/spacing_m">
 
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.App.TextField"
@@ -164,6 +165,21 @@
                             android:layout_gravity="center_vertical" />
 
                     </LinearLayout>
+                    
+                    <!-- Status Messages -->
+                    <TextView
+                        android:id="@+id/error_text"
+                        style="@style/Widget.App.StatusMessage.Error"
+                        android:visibility="gone"
+                        tools:text="Fehlermeldung"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/info_text"
+                        style="@style/Widget.App.StatusMessage.Info"
+                        android:visibility="gone"
+                        tools:text="Erfolgsmeldung"
+                        tools:visibility="visible" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -190,21 +206,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/file_pick_files_to_encrypt"
                         android:layout_marginBottom="@dimen/spacing_m" />
-
-                    <!-- Status Messages -->
-                    <TextView
-                        android:id="@+id/error_text"
-                        style="@style/Widget.App.StatusMessage.Error"
-                        android:visibility="gone"
-                        tools:text="Fehlermeldung"
-                        tools:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/info_text"
-                        style="@style/Widget.App.StatusMessage.Info"
-                        android:visibility="gone"
-                        tools:text="Erfolgsmeldung"
-                        tools:visibility="gone" />
 
                     <!-- No Files Text -->
                     <TextView

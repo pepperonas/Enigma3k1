@@ -60,6 +60,126 @@
                     </com.google.android.material.button.MaterialButtonToggleGroup>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+            
+            <!-- Key Settings Card -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.SectionCard">
+
+                <LinearLayout
+                    style="@style/Widget.App.SectionContent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/key_settings_title"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textColor="?attr/android:textColorPrimary"
+                        android:layout_marginBottom="@dimen/spacing_s" />
+
+                    <!-- Password Input -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextField"
+                        android:hint="@string/aes_key_input"
+                        app:endIconMode="password_toggle"
+                        app:endIconDrawable="@drawable/toggle_password_selector">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/password_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Password Controls -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="@dimen/spacing_m">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/generate_key_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/generate_key_button"
+                            app:icon="@drawable/ic_refresh"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    </LinearLayout>
+
+                    <!-- Key Size Selection -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/spacing_m">
+
+                        <TextView
+                            style="@style/Widget.App.InputLabel"
+                            android:text="@string/aes_key_sizes"
+                            android:layout_marginEnd="@dimen/spacing_s" />
+
+                        <Spinner
+                            android:id="@+id/key_size_spinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/key_sizes" />
+
+                    </LinearLayout>
+
+                    <!-- Save Key Form -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="@dimen/spacing_m">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.App.TextField"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginBottom="0dp"
+                            android:hint="@string/hint_key_name">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/key_name_input"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="text" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/save_key_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_s"
+                            android:text="@string/save_key_button"
+                            style="@style/Widget.App.Button.OutlinedButton"
+                            android:layout_gravity="center_vertical" />
+
+                    </LinearLayout>
+
+                    <!-- Error/Info Messages -->
+                    <TextView
+                        android:id="@+id/error_text"
+                        style="@style/Widget.App.StatusMessage.Error"
+                        android:visibility="gone"
+                        tools:text="Fehler: Ungültiger Schlüssel"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/info_text"
+                        style="@style/Widget.App.StatusMessage.Info"
+                        android:visibility="gone"
+                        tools:text="Schlüssel erfolgreich generiert"
+                        tools:visibility="visible" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Input/Output Card -->
             <com.google.android.material.card.MaterialCardView
@@ -133,92 +253,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Key Settings Card -->
-            <com.google.android.material.card.MaterialCardView
-                style="@style/Widget.App.SectionCard">
-
-                <LinearLayout
-                    style="@style/Widget.App.SectionContent">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/key_settings_title"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                        android:textColor="?attr/android:textColorPrimary"
-                        android:layout_marginBottom="@dimen/spacing_s" />
-
-                    <!-- Password Input -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.App.TextField"
-                        android:hint="@string/aes_key_input"
-                        app:endIconMode="password_toggle"
-                        app:endIconDrawable="@drawable/toggle_password_selector">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/password_input"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPassword" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <!-- Password Controls -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="@dimen/spacing_m">
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/generate_key_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/generate_key_button"
-                            app:icon="@drawable/ic_refresh"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
-
-                    </LinearLayout>
-
-                    <!-- Key Size Selection -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginBottom="@dimen/spacing_m">
-
-                        <TextView
-                            style="@style/Widget.App.InputLabel"
-                            android:text="@string/aes_key_sizes"
-                            android:layout_marginEnd="@dimen/spacing_s" />
-
-                        <Spinner
-                            android:id="@+id/key_size_spinner"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/key_sizes" />
-
-                    </LinearLayout>
-
-                    <!-- Error/Info Messages -->
-                    <TextView
-                        android:id="@+id/error_text"
-                        style="@style/Widget.App.StatusMessage.Error"
-                        android:visibility="gone"
-                        tools:text="Fehler: Ungültiger Schlüssel"
-                        tools:visibility="visible" />
-
-                    <TextView
-                        android:id="@+id/info_text"
-                        style="@style/Widget.App.StatusMessage.Info"
-                        android:visibility="gone"
-                        tools:text="Schlüssel erfolgreich generiert"
-                        tools:visibility="visible" />
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
             <!-- Saved Keys Card -->
             <com.google.android.material.card.MaterialCardView
                 style="@style/Widget.App.SectionCard">
@@ -233,39 +267,6 @@
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                         android:textColor="?attr/android:textColorPrimary"
                         android:layout_marginBottom="@dimen/spacing_m" />
-
-                    <!-- Save Key Form -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="@dimen/spacing_m">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.App.TextField"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginBottom="0dp"
-                            android:hint="@string/hint_key_name">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/key_name_input"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="text" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/save_key_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_s"
-                            android:text="@string/save_key_button"
-                            android:layout_gravity="center_vertical" />
-
-                    </LinearLayout>
 
                     <!-- Saved Keys List -->
                     <androidx.recyclerview.widget.RecyclerView

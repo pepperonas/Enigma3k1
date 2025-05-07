@@ -159,20 +159,38 @@ public class RsaUtils {
 
     /**
      * Prüft, ob ein String ein gültiger öffentlicher RSA-Schlüssel ist
+     * und führt zusätzliche Validierungen durch
      *
      * @param publicKeyBase64 Der zu prüfende öffentliche Schlüssel als Base64-String
      * @return true, wenn es ein gültiger Schlüssel ist, sonst false
      */
     public static boolean isValidPublicKey(String publicKeyBase64) {
         try {
-            // Versuche, den String in einen Public Key zu konvertieren
-            byte[] keyBytes = Base64.decode(publicKeyBase64, Base64.DEFAULT);
+            // Prüfen ob der String nicht leer ist
+            if (publicKeyBase64 == null || publicKeyBase64.trim().isEmpty()) {
+                return false;
+            }
+            
+            // Versuche, den String als Base64 zu dekodieren
+            byte[] keyBytes;
+            try {
+                keyBytes = Base64.decode(publicKeyBase64, Base64.DEFAULT);
+                // Minimale Länge für einen RSA-Schlüssel überprüfen (zu kurze Schlüssel sind ungültig)
+                if (keyBytes.length < 50) { // Ein gültiger RSA-Schlüssel ist typischerweise länger
+                    return false;
+                }
+            } catch (IllegalArgumentException e) {
+                // Kein gültiges Base64
+                return false;
+            }
+            
+            // Versuche, den Schlüssel in ein PublicKey-Objekt zu konvertieren
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            keyFactory.generatePublic(keySpec);
-
-            // Wenn keine Exception geworfen wurde, ist der Schlüssel gültig
-            return true;
+            PublicKey publicKey = keyFactory.generatePublic(keySpec);
+            
+            // Verifiziere, dass es sich um einen RSA-Schlüssel handelt
+            return "RSA".equals(publicKey.getAlgorithm());
         } catch (Exception e) {
             // Bei einer Exception ist der Schlüssel ungültig
             return false;

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spezieller Stil für den Lösch-Button -->
+    <style name="Widget.App.Button.Delete" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@color/error</item>
+        <item name="strokeColor">@color/error</item>
+        <item name="iconTint">@color/error</item>
+        <item name="rippleColor">@color/error_light</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:letterSpacing">0.0</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+</resources>
