@@ -10,8 +10,8 @@ android {
         applicationId "io.celox.enigma3k1"
         minSdk 21
         targetSdk 34
-        versionCode 1
-        versionName "0.0.3"
+        versionCode 4
+        versionName "0.0.4"
     }
 
     buildTypes {

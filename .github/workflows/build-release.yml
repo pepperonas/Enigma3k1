@@ -44,19 +44,10 @@ jobs:
       - name: Build Release APK
         run: ./gradlew assembleRelease
         
-      - name: Get APK path
-        id: apk-path
+      - name: List built APKs
         run: |
-          APK_PATH=$(find app/build/outputs/apk/release -name "*.apk" | head -n 1)
-          echo "APK-Pfad: $APK_PATH"
-          echo "path=$APK_PATH" >> $GITHUB_OUTPUT
-          
-      # Upload Release APK as artifact
-      - name: Upload Release APK
-        uses: actions/upload-artifact@v1
-        with:
-          name: release-apk-${{ github.event.inputs.version_name }}
-          path: ${{ steps.apk-path.outputs.path }}
+          echo "== Built APKs =="
+          find app/build/outputs/apk/release -name "*.apk" -ls
           
       # Version changes aren't committed automatically to avoid permission issues
       # You'll need to manually update the version in build.gradle locally

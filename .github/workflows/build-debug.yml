@@ -24,15 +24,7 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew assembleDebug
         
-      - name: Get APK path
-        id: apk-path
+      - name: List built APKs
         run: |
-          APK_PATH=$(find app/build/outputs/apk/debug -name "*.apk" | head -n 1)
-          echo "APK-Pfad: $APK_PATH"
-          echo "path=$APK_PATH" >> $GITHUB_OUTPUT
-          
-      - name: Upload Debug APK as artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: debug-apk
-          path: ${{ steps.apk-path.outputs.path }}
+          echo "== Built APKs =="
+          find app/build/outputs/apk/debug -name "*.apk" -ls
