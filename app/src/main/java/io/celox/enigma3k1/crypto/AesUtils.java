@@ -1,7 +1,18 @@
 package io.celox.enigma3k1.crypto;
 
+/**
+ * Utility-Klasse für AES-Verschlüsselung
+ *
+ * KOMPATIBILITÄTSHINWEIS:
+ * - Für Kompatibilität mit der Web-App wurden neue Methoden hinzugefügt:
+ *   - encryptWebAppCompatible() und decryptWebAppCompatible()
+ *   - Diese verwenden ein Format, das mit der Web-App kompatibel ist (AES-GCM ohne Salt)
+ * - Am einfachsten ist die Verwendung von decryptUniversal(), das beide Formate automatisch erkennt
+ */
+
 import android.util.Base64;
 
+import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 
@@ -22,6 +33,9 @@ public class AesUtils {
     private static final int GCM_TAG_LENGTH = 128; // 16 Bytes
     private static final int GCM_IV_LENGTH = 12; // 12 Bytes
     private static final int PBKDF2_ITERATIONS = 10000;
+    
+    // Konstanten für Web-App Kompatibilität
+    private static final int WEB_APP_IV_LENGTH = 12; // WebApp verwendet ebenfalls 12 Bytes
 
     /**
      * Generiert einen zufälligen AES-Schlüssel
@@ -168,5 +182,109 @@ public class AesUtils {
     private static SecretKey getKeyFromBase64(String base64Key) throws Exception {
         byte[] keyBytes = Base64.decode(base64Key, Base64.DEFAULT);
         return new SecretKeySpec(keyBytes, "AES");
+    }
+    
+    /**
+     * Verschlüsselt einen String mit AES-GCM im Web-App-kompatiblen Format
+     * (Verwendet nur IV ohne Salt)
+     *
+     * @param plaintext Zu verschlüsselnder Text
+     * @param password Passwort oder AES-Schlüssel
+     * @param keySize Schlüsselgröße in Bit (128, 192, 256)
+     * @return Verschlüsselter Text als Base64-String mit IV (WebApp-Format)
+     */
+    public static String encryptWebAppCompatible(String plaintext, String password, int keySize) throws Exception {
+        // IV generieren (12 Bytes wie in der Web-App)
+        byte[] iv = generateRandomBytes(WEB_APP_IV_LENGTH);
+        
+        // Schlüssel aus Passwort ableiten
+        SecretKey key;
+        if (isBase64Key(password, keySize)) {
+            key = getKeyFromBase64(password);
+        } else {
+            // Für die Web-App-Kompatibilität den gleichen Hash verwenden wie die Web-App
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] encodedHash = digest.digest(password.getBytes("UTF-8"));
+            key = new SecretKeySpec(encodedHash, "AES");
+        }
+        
+        // Verschlüsseln
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        GCMParameterSpec parameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
+        cipher.init(Cipher.ENCRYPT_MODE, key, parameterSpec);
+        
+        byte[] ciphertext = cipher.doFinal(plaintext.getBytes("UTF-8"));
+        
+        // IV und Ciphertext zusammenführen (ohne Salt) - wie in der Web-App
+        byte[] result = new byte[iv.length + ciphertext.length];
+        System.arraycopy(iv, 0, result, 0, iv.length);
+        System.arraycopy(ciphertext, 0, result, iv.length, ciphertext.length);
+        
+        // Als Base64 ohne Zeilenumbruch zurückgeben (für bessere Web-Kompatibilität)
+        return Base64.encodeToString(result, Base64.NO_WRAP);
+    }
+    
+    /**
+     * Entschlüsselt einen mit der Web-App verschlüsselten String
+     *
+     * @param encryptedText Verschlüsselter Text als Base64-String mit IV
+     * @param password Passwort oder AES-Schlüssel
+     * @param keySize Schlüsselgröße in Bit (128, 192, 256)
+     * @return Entschlüsselter Text
+     */
+    public static String decryptWebAppCompatible(String encryptedText, String password, int keySize) throws Exception {
+        // Base64 dekodieren (entferne eventuell vorhandene Whitespaces)
+        String cleanText = encryptedText.replaceAll("\\s", "");
+        byte[] encryptedData = Base64.decode(cleanText, Base64.DEFAULT);
+        
+        // IV und Ciphertext extrahieren (ohne Salt) - wie in der Web-App
+        byte[] iv = new byte[WEB_APP_IV_LENGTH];
+        byte[] ciphertext = new byte[encryptedData.length - iv.length];
+        
+        System.arraycopy(encryptedData, 0, iv, 0, iv.length);
+        System.arraycopy(encryptedData, iv.length, ciphertext, 0, ciphertext.length);
+        
+        // Schlüssel aus Passwort ableiten
+        SecretKey key;
+        if (isBase64Key(password, keySize)) {
+            key = getKeyFromBase64(password);
+        } else {
+            // Für die Web-App-Kompatibilität den gleichen Hash verwenden wie die Web-App
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] encodedHash = digest.digest(password.getBytes("UTF-8"));
+            key = new SecretKeySpec(encodedHash, "AES");
+        }
+        
+        // Entschlüsseln
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        GCMParameterSpec parameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
+        cipher.init(Cipher.DECRYPT_MODE, key, parameterSpec);
+        
+        byte[] decryptedBytes = cipher.doFinal(ciphertext);
+        return new String(decryptedBytes, "UTF-8");
+    }
+    
+    /**
+     * Universelle Entschlüsselungsmethode, die automatisch das Format erkennt und verarbeitet.
+     * Diese Methode probiert verschiedene Formate um sowohl App-eigene als auch Web-App-Daten 
+     * entschlüsseln zu können.
+     *
+     * @param encryptedText Verschlüsselter Text als Base64-String
+     * @param password Passwort oder AES-Schlüssel
+     * @param keySize Schlüsselgröße in Bit (128, 192, 256)
+     * @return Entschlüsselter Text 
+     */
+    public static String decryptUniversal(String encryptedText, String password, int keySize) throws Exception {
+        try {
+            // Zuerst mit dem Standard-Format versuchen (mit Salt)
+            return decrypt(encryptedText, password, keySize);
+        } catch (Exception e) {
+            try {
+                // Dann mit dem Web-App-Format versuchen (ohne Salt)
+                return decryptWebAppCompatible(encryptedText, password, keySize);
+            } catch (Exception e2) {
+                throw new Exception("Entschlüsselung fehlgeschlagen in beiden Formaten: " + e.getMessage() + ", " + e2.getMessage());
+            }
+        }
     }
 }

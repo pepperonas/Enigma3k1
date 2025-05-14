@@ -1,5 +1,18 @@
 package io.celox.enigma3k1.crypto;
 
+/**
+ * Utility-Klasse für RSA-Verschlüsselung
+ *
+ * KOMPATIBILITÄTSHINWEIS:
+ * - Standard-Methode encrypt() und decrypt() verwenden "RSA/ECB/PKCS1Padding", was nur innerhalb der App funktioniert
+ * - Für Kompatibilität mit der WebApp müssen die Methoden encryptWebAppCompatible() und decryptWebAppCompatible() 
+ *   verwendet werden, die "RSA/ECB/OAEPWithSHA-256AndMGF1Padding" nutzen
+ * 
+ * BENUTZERFREUNDLICHKEIT:
+ * - Die Web-App wurde verbessert, um beide Formate zu unterstützen
+ * - Der Text und Schlüssel können in beiden Apps einfach in die Zwischenablage kopiert werden
+ */
+
 import android.util.Base64;
 
 import java.security.KeyFactory;
@@ -51,11 +64,34 @@ public class RsaUtils {
     public static String encrypt(String plainText, String publicKeyBase64) throws Exception {
         PublicKey publicKey = getPublicKeyFromBase64(publicKeyBase64);
 
+        // Default Android-Verschlüsselung mit RSA/ECB/PKCS1Padding
         Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 
         byte[] encryptedBytes = cipher.doFinal(plainText.getBytes("UTF-8"));
         return Base64.encodeToString(encryptedBytes, Base64.DEFAULT);
+    }
+    
+    /**
+     * Verschlüsselt einen Text mit RSA im Web-App-Format (RSA-OAEP)
+     * 
+     * @param plainText       Zu verschlüsselnder Text
+     * @param publicKeyBase64 Base64-encodierter Public Key
+     * @return Base64-encodierter verschlüsselter Text (Web-App-kompatibel)
+     */
+    public static String encryptWebAppCompatible(String plainText, String publicKeyBase64) throws Exception {
+        try {
+            // Versuche Verschlüsselung mit RSA/ECB/OAEPWithSHA-256AndMGF1Padding (WebApp-kompatibel)
+            PublicKey publicKey = getPublicKeyFromBase64(publicKeyBase64);
+            
+            Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+            
+            byte[] encryptedBytes = cipher.doFinal(plainText.getBytes("UTF-8"));
+            return Base64.encodeToString(encryptedBytes, Base64.NO_WRAP); // NO_WRAP statt DEFAULT für WebApp
+        } catch (Exception e) {
+            throw new Exception("Fehler bei Web-App-kompatibler Verschlüsselung: " + e.getMessage(), e);
+        }
     }
 
     /**
@@ -74,6 +110,32 @@ public class RsaUtils {
         byte[] encryptedBytes = Base64.decode(encryptedText, Base64.DEFAULT);
         byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
         return new String(decryptedBytes, "UTF-8");
+    }
+    
+    /**
+     * Entschlüsselt einen Text, der mit der Web-App verschlüsselt wurde (RSA-OAEP)
+     *
+     * @param encryptedText    Base64-encodierter verschlüsselter Text aus der Web-App
+     * @param privateKeyBase64 Base64-encodierter Private Key
+     * @return Entschlüsselter Text
+     */
+    public static String decryptWebAppCompatible(String encryptedText, String privateKeyBase64) throws Exception {
+        try {
+            // Vorverarbeitung: Bereinige den Base64-String (entferne Whitespace)
+            String cleanEncryptedText = encryptedText.replaceAll("\\s", "");
+            
+            PrivateKey privateKey = getPrivateKeyFromBase64(privateKeyBase64);
+
+            // Versuche zuerst mit dem Web-App-Algorithmus (OAEP mit SHA-256)
+            Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
+            cipher.init(Cipher.DECRYPT_MODE, privateKey);
+
+            byte[] encryptedBytes = Base64.decode(cleanEncryptedText, Base64.DEFAULT);
+            byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
+            return new String(decryptedBytes, "UTF-8");
+        } catch (Exception e) {
+            throw new Exception("Fehler bei Web-App-kompatibler Entschlüsselung: " + e.getMessage(), e);
+        }
     }
 
     /**
