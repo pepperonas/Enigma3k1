@@ -81,8 +81,11 @@ public class RsaUtils {
      */
     public static String encryptWebAppCompatible(String plainText, String publicKeyBase64) throws Exception {
         try {
+            // Bereinige den Public Key von Whitespace
+            String cleanPublicKey = publicKeyBase64.replaceAll("\\s", "");
+            
             // Versuche Verschlüsselung mit RSA/ECB/OAEPWithSHA-256AndMGF1Padding (WebApp-kompatibel)
-            PublicKey publicKey = getPublicKeyFromBase64(publicKeyBase64);
+            PublicKey publicKey = getPublicKeyFromBase64(cleanPublicKey);
             
             Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
@@ -124,13 +127,26 @@ public class RsaUtils {
             // Vorverarbeitung: Bereinige den Base64-String (entferne Whitespace)
             String cleanEncryptedText = encryptedText.replaceAll("\\s", "");
             
+            // Versuche verschiedene Base64-Optionen falls die Dekodierung fehlschlägt
+            byte[] encryptedBytes;
+            try {
+                encryptedBytes = Base64.decode(cleanEncryptedText, Base64.DEFAULT);
+            } catch (IllegalArgumentException e) {
+                // Versuche mit NO_PADDING
+                try {
+                    encryptedBytes = Base64.decode(cleanEncryptedText, Base64.NO_PADDING);
+                } catch (IllegalArgumentException e2) {
+                    // Versuche mit URL_SAFE
+                    encryptedBytes = Base64.decode(cleanEncryptedText, Base64.URL_SAFE);
+                }
+            }
+            
             PrivateKey privateKey = getPrivateKeyFromBase64(privateKeyBase64);
 
             // Versuche zuerst mit dem Web-App-Algorithmus (OAEP mit SHA-256)
             Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
 
-            byte[] encryptedBytes = Base64.decode(cleanEncryptedText, Base64.DEFAULT);
             byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
             return new String(decryptedBytes, "UTF-8");
         } catch (Exception e) {

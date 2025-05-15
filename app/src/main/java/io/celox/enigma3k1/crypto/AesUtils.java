@@ -188,7 +188,6 @@ public class AesUtils {
     
     /**
      * Verschlüsselt einen String mit AES-GCM im Web-App-kompatiblen Format
-     * (Verwendet nur IV ohne Salt)
      *
      * @param plaintext Zu verschlüsselnder Text
      * @param password Passwort oder AES-Schlüssel
@@ -198,7 +197,6 @@ public class AesUtils {
     public static String encryptWebAppCompatible(String plaintext, String password, int keySize) throws Exception {
         // IV generieren (12 Bytes wie in der Web-App)
         byte[] iv = generateRandomBytes(WEB_APP_IV_LENGTH);
-        byte[] salt = generateRandomBytes(16); // Auch Salt erzeugen für Kompatibilität
         
         // Schlüssel aus Passwort ableiten
         SecretKey key;
@@ -211,22 +209,17 @@ public class AesUtils {
             key = new SecretKeySpec(encodedHash, "AES");
         }
         
-        // Verschlüsseln mit Salt als AAD (Additional Authenticated Data)
+        // Verschlüsseln im Standard Web-App-Format ohne AAD
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         GCMParameterSpec parameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
         cipher.init(Cipher.ENCRYPT_MODE, key, parameterSpec);
         
-        // Salt als AAD hinzufügen für kompatible Entschlüsselung
-        cipher.updateAAD(salt);
-        
         byte[] ciphertext = cipher.doFinal(plaintext.getBytes("UTF-8"));
         
-        // Im Android-Format: [Salt(16) + IV(12) + Ciphertext]
-        // Dies ist jetzt kompatibel mit dem Entschlüsselungsformat der Web-App
-        byte[] result = new byte[salt.length + iv.length + ciphertext.length];
-        System.arraycopy(salt, 0, result, 0, salt.length);
-        System.arraycopy(iv, 0, result, salt.length, iv.length);
-        System.arraycopy(ciphertext, 0, result, salt.length + iv.length, ciphertext.length);
+        // Im Web-App-Format: [IV(12) + Ciphertext]
+        byte[] result = new byte[iv.length + ciphertext.length];
+        System.arraycopy(iv, 0, result, 0, iv.length);
+        System.arraycopy(ciphertext, 0, result, iv.length, ciphertext.length);
         
         // Als Base64 ohne Zeilenumbruch zurückgeben (für bessere Web-Kompatibilität)
         return Base64.encodeToString(result, Base64.NO_WRAP);
@@ -243,33 +236,87 @@ public class AesUtils {
     public static String decryptWebAppCompatible(String encryptedText, String password, int keySize) throws Exception {
         // Base64 dekodieren (entferne eventuell vorhandene Whitespaces)
         String cleanText = encryptedText.replaceAll("\\s", "");
-        byte[] encryptedData = Base64.decode(cleanText, Base64.DEFAULT);
-        
-        // IV und Ciphertext extrahieren (ohne Salt) - wie in der Web-App
-        byte[] iv = new byte[WEB_APP_IV_LENGTH];
-        byte[] ciphertext = new byte[encryptedData.length - iv.length];
-        
-        System.arraycopy(encryptedData, 0, iv, 0, iv.length);
-        System.arraycopy(encryptedData, iv.length, ciphertext, 0, ciphertext.length);
-        
-        // Schlüssel aus Passwort ableiten
-        SecretKey key;
-        if (isBase64Key(password, keySize)) {
-            key = getKeyFromBase64(password);
-        } else {
-            // Für die Web-App-Kompatibilität den gleichen Hash verwenden wie die Web-App
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] encodedHash = digest.digest(password.getBytes("UTF-8"));
-            key = new SecretKeySpec(encodedHash, "AES");
+        byte[] encryptedData;
+        try {
+            encryptedData = Base64.decode(cleanText, Base64.DEFAULT);
+        } catch (IllegalArgumentException e) {
+            // Versuche mit NO_PADDING
+            try {
+                encryptedData = Base64.decode(cleanText, Base64.NO_PADDING);
+            } catch (IllegalArgumentException e2) {
+                // Versuche mit URL_SAFE
+                encryptedData = Base64.decode(cleanText, Base64.URL_SAFE);
+            }
         }
         
-        // Entschlüsseln
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
-        GCMParameterSpec parameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
-        cipher.init(Cipher.DECRYPT_MODE, key, parameterSpec);
-        
-        byte[] decryptedBytes = cipher.doFinal(ciphertext);
-        return new String(decryptedBytes, "UTF-8");
+        // Versuche beide Formate: mit und ohne Salt
+        // Zuerst das Standard-Web-Format (ohne Salt): [IV(12) + Ciphertext]
+        try {
+            // IV und Ciphertext extrahieren (ohne Salt) - wie in der Web-App
+            byte[] iv = new byte[WEB_APP_IV_LENGTH];
+            byte[] ciphertext = new byte[encryptedData.length - iv.length];
+            
+            System.arraycopy(encryptedData, 0, iv, 0, iv.length);
+            System.arraycopy(encryptedData, iv.length, ciphertext, 0, ciphertext.length);
+            
+            // Schlüssel aus Passwort ableiten
+            SecretKey key;
+            if (isBase64Key(password, keySize)) {
+                key = getKeyFromBase64(password);
+            } else {
+                // Für die Web-App-Kompatibilität den gleichen Hash verwenden wie die Web-App
+                MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                byte[] encodedHash = digest.digest(password.getBytes("UTF-8"));
+                key = new SecretKeySpec(encodedHash, "AES");
+            }
+            
+            // Entschlüsseln
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            GCMParameterSpec parameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
+            cipher.init(Cipher.DECRYPT_MODE, key, parameterSpec);
+            
+            byte[] decryptedBytes = cipher.doFinal(ciphertext);
+            return new String(decryptedBytes, "UTF-8");
+        } catch (Exception e) {
+            // Wenn das Web-Format fehlschlägt, versuche das Android-Format mit Salt
+            if (encryptedData.length >= 16 + WEB_APP_IV_LENGTH) {
+                try {
+                    // Salt, IV und Ciphertext extrahieren
+                    byte[] salt = new byte[16];
+                    byte[] iv = new byte[WEB_APP_IV_LENGTH];
+                    byte[] ciphertext = new byte[encryptedData.length - salt.length - iv.length];
+                    
+                    System.arraycopy(encryptedData, 0, salt, 0, salt.length);
+                    System.arraycopy(encryptedData, salt.length, iv, 0, iv.length);
+                    System.arraycopy(encryptedData, salt.length + iv.length, ciphertext, 0, ciphertext.length);
+                    
+                    // Schlüssel aus Passwort ableiten
+                    SecretKey key;
+                    if (isBase64Key(password, keySize)) {
+                        key = getKeyFromBase64(password);
+                    } else {
+                        // Für die Web-App-Kompatibilität den gleichen Hash verwenden wie die Web-App
+                        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                        byte[] encodedHash = digest.digest(password.getBytes("UTF-8"));
+                        key = new SecretKeySpec(encodedHash, "AES");
+                    }
+                    
+                    // Entschlüsseln mit Salt als AAD
+                    Cipher cipher = Cipher.getInstance(ALGORITHM);
+                    GCMParameterSpec parameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
+                    cipher.init(Cipher.DECRYPT_MODE, key, parameterSpec);
+                    cipher.updateAAD(salt);
+                    
+                    byte[] decryptedBytes = cipher.doFinal(ciphertext);
+                    return new String(decryptedBytes, "UTF-8");
+                } catch (Exception inner) {
+                    throw new Exception("Fehler bei der Entschlüsselung mit Salt: " + inner.getMessage() + ". Ursprünglicher Fehler: " + e.getMessage(), e);
+                }
+            }
+            
+            // Wenn beide Versuche fehlschlagen, wirf den ursprünglichen Fehler
+            throw new Exception("Entschlüsselung fehlgeschlagen: " + e.getMessage(), e);
+        }
     }
     
     /**
@@ -284,14 +331,14 @@ public class AesUtils {
      */
     public static String decryptUniversal(String encryptedText, String password, int keySize) throws Exception {
         try {
-            // Zuerst mit dem Standard-Format versuchen (mit Salt)
-            return decrypt(encryptedText, password, keySize);
-        } catch (Exception e) {
+            // Zuerst mit dem Web-App-Format versuchen (optimiert für beide Formate)
+            return decryptWebAppCompatible(encryptedText, password, keySize);
+        } catch (Exception e1) {
             try {
-                // Dann mit dem Web-App-Format versuchen (ohne Salt)
-                return decryptWebAppCompatible(encryptedText, password, keySize);
+                // Dann mit dem Standard-Format versuchen (mit Salt)
+                return decrypt(encryptedText, password, keySize);
             } catch (Exception e2) {
-                throw new Exception("Entschlüsselung fehlgeschlagen in beiden Formaten: " + e.getMessage() + ", " + e2.getMessage());
+                throw new Exception("Entschlüsselung fehlgeschlagen in beiden Formaten: " + e1.getMessage() + ", " + e2.getMessage());
             }
         }
     }
