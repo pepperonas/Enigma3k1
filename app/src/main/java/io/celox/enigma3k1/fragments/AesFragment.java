@@ -45,6 +45,7 @@ public class AesFragment extends Fragment {
     private Spinner keySizeSpinner;
     private RecyclerView savedKeysRecyclerView;
     private TextView errorText, infoText;
+    private androidx.appcompat.widget.SwitchCompat webCompatModeSwitch;
 
     private AesKeyAdapter keyAdapter;
     private List<AesKey> savedKeys = new ArrayList<>();
@@ -84,6 +85,7 @@ public class AesFragment extends Fragment {
         savedKeysRecyclerView = view.findViewById(R.id.saved_keys_recycler);
         errorText = view.findViewById(R.id.error_text);
         infoText = view.findViewById(R.id.info_text);
+        webCompatModeSwitch = view.findViewById(R.id.web_compat_mode_switch);
 
         // RecyclerView einrichten
         savedKeysRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -207,13 +209,33 @@ public class AesFragment extends Fragment {
         try {
             String result;
             if (currentMode.equals("encrypt")) {
-                result = AesUtils.encrypt(input, password, keySize);
+                // Prüfen ob der Web-Kompatibilitätsmodus aktiviert ist
+                boolean webCompatMode = webCompatModeSwitch.isChecked();
+                
+                if (webCompatMode) {
+                    // Web-App-kompatible Verschlüsselung verwenden
+                    result = AesUtils.encryptWebAppCompatible(input, password, keySize);
+                    showInfo("Im Web-App-kompatiblen Format verschlüsselt");
+                } else {
+                    // Standardverschlüsselung der Android-App
+                    result = AesUtils.encrypt(input, password, keySize);
+                }
             } else {
-                result = AesUtils.decrypt(input, password, keySize);
+                // Für Entschlüsselung immer die universelle Methode verwenden
+                result = AesUtils.decryptUniversal(input, password, keySize);
             }
             outputText.setText(result);
         } catch (Exception e) {
-            showError("Fehler: " + e.getMessage());
+            String errorMsg = e.getMessage();
+            
+            // Verbesserte Fehlermeldung bei Entschlüsselungsfehlern
+            if (errorMsg != null && errorMsg.contains("BAD_DECRYPT")) {
+                showError("Entschlüsselungsfehler: Möglicherweise wurde der Text mit einer anderen Version verschlüsselt. " +
+                        "Versuche es mit der universellen Entschlüsselungsmethode oder aktiviere den Web-Kompatibilitätsmodus " +
+                        "bei der Verschlüsselung.");
+            } else {
+                showError("Fehler: " + errorMsg);
+            }
         }
     }
 

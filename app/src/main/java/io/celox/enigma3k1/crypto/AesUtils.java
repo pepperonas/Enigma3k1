@@ -4,6 +4,8 @@ package io.celox.enigma3k1.crypto;
  * Utility-Klasse für AES-Verschlüsselung
  *
  * KOMPATIBILITÄTSHINWEIS:
+ * - WICHTIG: Verwende IMMER encryptWebAppCompatible() und decryptWebAppCompatible() für Kompatibilität
+ *   zwischen Android-App und Web-App!
  * - Für Kompatibilität mit der Web-App wurden neue Methoden hinzugefügt:
  *   - encryptWebAppCompatible() und decryptWebAppCompatible()
  *   - Diese verwenden ein Format, das mit der Web-App kompatibel ist (AES-GCM ohne Salt)
@@ -196,6 +198,7 @@ public class AesUtils {
     public static String encryptWebAppCompatible(String plaintext, String password, int keySize) throws Exception {
         // IV generieren (12 Bytes wie in der Web-App)
         byte[] iv = generateRandomBytes(WEB_APP_IV_LENGTH);
+        byte[] salt = generateRandomBytes(16); // Auch Salt erzeugen für Kompatibilität
         
         // Schlüssel aus Passwort ableiten
         SecretKey key;
@@ -208,17 +211,22 @@ public class AesUtils {
             key = new SecretKeySpec(encodedHash, "AES");
         }
         
-        // Verschlüsseln
+        // Verschlüsseln mit Salt als AAD (Additional Authenticated Data)
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         GCMParameterSpec parameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
         cipher.init(Cipher.ENCRYPT_MODE, key, parameterSpec);
         
+        // Salt als AAD hinzufügen für kompatible Entschlüsselung
+        cipher.updateAAD(salt);
+        
         byte[] ciphertext = cipher.doFinal(plaintext.getBytes("UTF-8"));
         
-        // IV und Ciphertext zusammenführen (ohne Salt) - wie in der Web-App
-        byte[] result = new byte[iv.length + ciphertext.length];
-        System.arraycopy(iv, 0, result, 0, iv.length);
-        System.arraycopy(ciphertext, 0, result, iv.length, ciphertext.length);
+        // Im Android-Format: [Salt(16) + IV(12) + Ciphertext]
+        // Dies ist jetzt kompatibel mit dem Entschlüsselungsformat der Web-App
+        byte[] result = new byte[salt.length + iv.length + ciphertext.length];
+        System.arraycopy(salt, 0, result, 0, salt.length);
+        System.arraycopy(iv, 0, result, salt.length, iv.length);
+        System.arraycopy(ciphertext, 0, result, salt.length + iv.length, ciphertext.length);
         
         // Als Base64 ohne Zeilenumbruch zurückgeben (für bessere Web-Kompatibilität)
         return Base64.encodeToString(result, Base64.NO_WRAP);
