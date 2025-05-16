@@ -129,44 +129,7 @@
 
                     </LinearLayout>
                     
-                    <!-- Web Compatibility Mode Switch -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:background="@drawable/bg_info_message"
-                        android:padding="@dimen/spacing_s"
-                        android:layout_marginBottom="@dimen/spacing_m">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-                            
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Web-App Kompatibilitätsmodus"
-                                android:textStyle="bold"
-                                android:textColor="?attr/colorPrimary" />
-                                
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="12sp"
-                                android:textColor="?android:textColorSecondary"
-                                android:text="Aktivieren Sie diese Option für die Verschlüsselung im Web-App kompatiblen Format" />
-                        </LinearLayout>
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/web_compat_mode_switch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_s" />
-
-                    </LinearLayout>
+                    <!-- Web Compatibility Mode entfernt -->
 
                     <!-- Save Key Form -->
                     <LinearLayout
@@ -349,7 +312,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• AES-GCM ist ein moderner, sicherer Verschlüsselungsalgorithmus mit Authentifizierung, der einen Initialization Vector (IV) verwendet, um die Einzigartigkeit jeder Verschlüsselung zu gewährleisten.\n\n• Längere Schlüssel (192, 256 Bit) bieten mehr Sicherheit, können aber mehr Rechenleistung erfordern. 256 Bit gilt als zukunftssicher.\n\n• Der Initialization Vector wird automatisch bei jeder Verschlüsselung erzeugt und im verschlüsselten Text gespeichert, daher ist er nicht separat zu speichern.\n\n• Es gibt keine Möglichkeit, ein verlorenes Passwort oder einen verlorenen Schlüssel wiederherzustellen. Bewahre deine Schlüssel sicher auf!\n\n• Für maximale Sicherheit solltest du zufällig generierte Schlüssel statt einfacher Passwörter verwenden, da diese resistenter gegen Wörterbuch- und Brute-Force-Angriffe sind.\n\n• Der verschlüsselte Text ist Base64-kodiert und kann sicher in E-Mails, Datenbanken oder Textdateien gespeichert werden."
+                        android:text="• AES-GCM ist ein moderner, sicherer Verschlüsselungsalgorithmus mit Authentifizierung, der einen Initialization Vector (IV) verwendet, um die Einzigartigkeit jeder Verschlüsselung zu gewährleisten.\n\n• Die App verwendet ein eigenes Format: [Salt(16) + IV(12) + EncryptedData] und ist nur mit sich selbst kompatibel (nicht mit der Web-App).\n\n• Längere Schlüssel (192, 256 Bit) bieten mehr Sicherheit, können aber mehr Rechenleistung erfordern. 256 Bit gilt als zukunftssicher.\n\n• Der Initialization Vector wird automatisch bei jeder Verschlüsselung erzeugt und im verschlüsselten Text gespeichert, daher ist er nicht separat zu speichern.\n\n• Es gibt keine Möglichkeit, ein verlorenes Passwort oder einen verlorenen Schlüssel wiederherzustellen. Bewahre deine Schlüssel sicher auf!\n\n• Für maximale Sicherheit solltest du zufällig generierte Schlüssel statt einfacher Passwörter verwenden, da diese resistenter gegen Wörterbuch- und Brute-Force-Angriffe sind.\n\n• Der verschlüsselte Text ist Base64-kodiert und kann sicher in E-Mails, Datenbanken oder Textdateien gespeichert werden."
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                         android:textColor="?android:textColorSecondary" />
 

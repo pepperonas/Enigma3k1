@@ -45,7 +45,7 @@ public class AesFragment extends Fragment {
     private Spinner keySizeSpinner;
     private RecyclerView savedKeysRecyclerView;
     private TextView errorText, infoText;
-    private androidx.appcompat.widget.SwitchCompat webCompatModeSwitch;
+    // Web Compatibility Mode entfernt
 
     private AesKeyAdapter keyAdapter;
     private List<AesKey> savedKeys = new ArrayList<>();
@@ -85,7 +85,7 @@ public class AesFragment extends Fragment {
         savedKeysRecyclerView = view.findViewById(R.id.saved_keys_recycler);
         errorText = view.findViewById(R.id.error_text);
         infoText = view.findViewById(R.id.info_text);
-        webCompatModeSwitch = view.findViewById(R.id.web_compat_mode_switch);
+        // Web Compatibility Mode Switch entfernt
 
         // RecyclerView einrichten
         savedKeysRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -209,20 +209,12 @@ public class AesFragment extends Fragment {
         try {
             String result;
             if (currentMode.equals("encrypt")) {
-                // Prüfen ob der Web-Kompatibilitätsmodus aktiviert ist
-                boolean webCompatMode = webCompatModeSwitch.isChecked();
-                
-                if (webCompatMode) {
-                    // Web-App-kompatible Verschlüsselung verwenden
-                    result = AesUtils.encryptWebAppCompatible(input, password, keySize);
-                    showInfo("Im Web-App-kompatiblen Format verschlüsselt");
-                } else {
-                    // Standardverschlüsselung der Android-App
-                    result = AesUtils.encrypt(input, password, keySize);
-                }
+                // Web-Kompatibilitätsmodus entfernt - Standardverschlüsselung der Android-App
+                result = AesUtils.encrypt(input, password, keySize);
+                showInfo("Verschlüsselung erfolgreich");
             } else {
-                // Für Entschlüsselung immer die universelle Methode verwenden
-                result = AesUtils.decryptUniversal(input, password, keySize);
+                // Robuste Entschlüsselung verwenden
+                result = AesUtils.decryptRobust(input, password, keySize);
             }
             outputText.setText(result);
         } catch (Exception e) {
