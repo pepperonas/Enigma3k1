@@ -1,19 +1,7 @@
 package io.celox.enigma3k1.crypto;
 
-/**
- * Utility-Klasse für AES-Verschlüsselung
- *
- * HINWEIS ZUR KOMPATIBILITÄT:
- * - Diese App verwendet standardmäßig ihr eigenes Format: [Salt(16) + IV(12) + EncryptedData]
- * - Die Methoden encrypt() und decrypt() arbeiten innerhalb der Android-App konsistent
- * - Die Methoden encryptWebAppCompatible() und decryptWebAppCompatible() wurden entfernt,
- *   da keine Kompatibilität mit der Web-App mehr angestrebt wird
- * - Verwende für Android-interne Verschlüsselung einfach encrypt() und decrypt()
- */
-
 import android.util.Base64;
 
-import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 
@@ -34,9 +22,6 @@ public class AesUtils {
     private static final int GCM_TAG_LENGTH = 128; // 16 Bytes
     private static final int GCM_IV_LENGTH = 12; // 12 Bytes
     private static final int PBKDF2_ITERATIONS = 10000;
-    
-    // Konstanten für AES-GCM
-    private static final int IV_LENGTH = 12; // 12 Bytes für GCM IV ist Standard
 
     /**
      * Generiert einen zufälligen AES-Schlüssel
@@ -183,67 +168,5 @@ public class AesUtils {
     private static SecretKey getKeyFromBase64(String base64Key) throws Exception {
         byte[] keyBytes = Base64.decode(base64Key, Base64.DEFAULT);
         return new SecretKeySpec(keyBytes, "AES");
-    }
-    
-    /**
-     * Optimierte Entschlüsselungsmethode, die robuster mit verschiedenen Base64-Formaten umgeht
-     *
-     * @param encryptedText Verschlüsselter Text als Base64-String
-     * @param password Passwort oder AES-Schlüssel
-     * @param keySize Schlüsselgröße in Bit (128, 192, 256)
-     * @return Entschlüsselter Text
-     */
-    public static String decryptRobust(String encryptedText, String password, int keySize) throws Exception {
-        // Base64 dekodieren mit Unterstützung für verschiedene Formate
-        String cleanText = encryptedText.replaceAll("\\s", "");
-        byte[] encryptedData;
-        
-        try {
-            encryptedData = Base64.decode(cleanText, Base64.DEFAULT);
-        } catch (IllegalArgumentException e) {
-            try {
-                // Versuche mit NO_PADDING
-                encryptedData = Base64.decode(cleanText, Base64.NO_PADDING);
-            } catch (IllegalArgumentException e2) {
-                // Versuche mit URL_SAFE
-                encryptedData = Base64.decode(cleanText, Base64.URL_SAFE);
-            }
-        }
-        
-        // Normale Entschlüsselung mit dem Android-Format
-        return decrypt(encryptedData, password, keySize);
-    }
-    
-    /**
-     * Private Hilfsmethode für die direkte Entschlüsselung von Byte-Arrays
-     */
-    private static String decrypt(byte[] encryptedData, String password, int keySize) throws Exception {
-        // Salt, IV und Ciphertext extrahieren
-        byte[] salt = new byte[16];
-        byte[] iv = new byte[GCM_IV_LENGTH];
-        byte[] ciphertext = new byte[encryptedData.length - salt.length - iv.length];
-
-        System.arraycopy(encryptedData, 0, salt, 0, salt.length);
-        System.arraycopy(encryptedData, salt.length, iv, 0, iv.length);
-        System.arraycopy(encryptedData, salt.length + iv.length, ciphertext, 0, ciphertext.length);
-
-        // Schlüssel aus Passwort ableiten oder direkten Schlüssel verwenden
-        SecretKey key;
-        if (isBase64Key(password, keySize)) {
-            key = getKeyFromBase64(password);
-        } else {
-            key = deriveKeyFromPassword(password, salt);
-        }
-
-        // Entschlüsseln
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
-        GCMParameterSpec parameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
-        cipher.init(Cipher.DECRYPT_MODE, key, parameterSpec);
-
-        // Salt als zusätzliche Daten (AAD) hinzufügen
-        cipher.updateAAD(salt);
-
-        byte[] decryptedBytes = cipher.doFinal(ciphertext);
-        return new String(decryptedBytes, "UTF-8");
     }
 }

@@ -135,28 +135,7 @@
                     android:layout_marginBottom="@dimen/spacing_m"
                     style="?android:attr/progressBarStyleHorizontal" />
 
-                <!-- Web-App Kompatibilitätsmodus -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="@dimen/spacing_m">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Web-App Kompatibilitätsmodus"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                        android:textColor="?attr/android:textColorPrimary" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/web_compat_mode_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true" />
-                </LinearLayout>
+                <!-- Web-App Kompatibilitätsmodus entfernt -->
 
                 <!-- Externe Schlüsseloption -->
                 <LinearLayout

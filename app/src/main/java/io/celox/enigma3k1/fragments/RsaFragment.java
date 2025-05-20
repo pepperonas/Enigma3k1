@@ -64,12 +64,10 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
     private RecyclerView keyPairsRecyclerView;
     private TextView errorText, infoText, externalKeyStatusText;
     private ProgressBar generatingProgress;
-    private androidx.appcompat.widget.SwitchCompat webCompatModeSwitch;
 
     private String currentMode = "encrypt"; // "encrypt" oder "decrypt"
     private int keySize = 2048; // Standard: 2048 Bit
     private boolean useExternalKey = false;
-    private boolean showAdvancedOptions = false;
     private boolean externalKeyValid = false;
 
     private String[] currentKeyPair;
@@ -118,7 +116,6 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
         infoText = view.findViewById(R.id.info_text);
         externalKeyStatusText = view.findViewById(R.id.external_key_status);
         generatingProgress = view.findViewById(R.id.generating_progress);
-        webCompatModeSwitch = view.findViewById(R.id.web_compat_mode_switch);
         
         // Paste from Clipboard Button
         pasteClipboardButton.setOnClickListener(v -> {
@@ -181,8 +178,12 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
         useExternalKeyCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             useExternalKey = isChecked;
             externalKeyLayout.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-            externalKeyStatusText.setVisibility(View.GONE);
-            externalKeyValid = false;
+            
+            // Status zurücksetzen, nur wenn der Checkbox deaktiviert wird
+            if (!isChecked) {
+                externalKeyStatusText.setVisibility(View.GONE);
+                externalKeyValid = false;
+            }
         });
 
         // Import External Key Button
@@ -278,7 +279,6 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
             // Base64-Validierung und Bereinigung
             processedKeyText = processedKeyText.replaceAll("\\s", ""); // Whitespace entfernen
             
-            // Neuer Versuch, den bereinigten Schlüssel zu validieren
             // Schlüssel validieren
             if (RsaUtils.isValidPublicKey(processedKeyText)) {
                 // Erfolgreich validiert, jetzt speichern wir den verarbeiteten Schlüssel zurück ins Eingabefeld
@@ -374,18 +374,28 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
         }
 
         if (currentMode.equals("encrypt")) {
-            // Prüfen ob der Web-Kompatibilitätsmodus aktiviert ist
-            boolean webCompatMode = webCompatModeSwitch.isChecked();
-            
             if (useExternalKey) {
                 // Mit externem öffentlichen Schlüssel verschlüsseln
-                if (!externalKeyValid) {
-                    showError("Bitte zuerst einen gültigen externen öffentlichen Schlüssel importieren");
+                String keyText = externalKeyInput.getText().toString().trim();
+                
+                if (keyText.isEmpty()) {
+                    showError("Bitte geben Sie einen öffentlichen Schlüssel ein");
                     return;
                 }
-
+                
+                // Importieren des Schlüssels (falls noch nicht erfolgt)
+                if (!externalKeyValid) {
+                    importExternalKey();
+                    
+                    // Nach dem Importieren erneut auf Gültigkeit prüfen
+                    if (!externalKeyValid) {
+                        return; // importExternalKey zeigt bereits einen Fehler an
+                    }
+                }
+                
                 try {
-                    String keyText = externalKeyInput.getText().toString().trim();
+                    // Die aktuelle Version des Schlüssels aus dem Eingabefeld holen
+                    keyText = externalKeyInput.getText().toString().trim();
                     
                     // Sicher verarbeiten, falls es ein PEM-Format ist
                     if (keyText.contains("-----BEGIN") && keyText.contains("PUBLIC KEY")) {
@@ -394,25 +404,10 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
                     
                     // Whitespace bereinigen
                     keyText = keyText.replaceAll("\\s", "");
-                    
-                    // Erneut validieren, um sicherzustellen, dass der Schlüssel gültig ist
-                    if (!RsaUtils.isValidPublicKey(keyText)) {
-                        showError("Der externe Schlüssel ist ungültig. Bitte importieren Sie ihn erneut.");
-                        externalKeyValid = false;
-                        return;
-                    }
 
-                    String encrypted;
-                    if (webCompatMode) {
-                        // Web-App-kompatible Verschlüsselung verwenden
-                        encrypted = RsaUtils.encryptWebAppCompatible(input, keyText);
-                        showInfo("Im Web-App-kompatiblen Format (RSA-OAEP) verschlüsselt");
-                    } else {
-                        // Standard-Verschlüsselung der Android-App
-                        encrypted = RsaUtils.encrypt(input, keyText);
-                        showInfo("Standard-Format (PKCS1) verschlüsselt");
-                    }
+                    String encrypted = RsaUtils.encrypt(input, keyText);
                     outputText.setText(encrypted);
+                    showInfo("Text erfolgreich verschlüsselt");
                 } catch (Exception e) {
                     showError("Verschlüsselung fehlgeschlagen: " + e.getMessage());
                 }
@@ -424,16 +419,7 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
                 }
 
                 try {
-                    String encrypted;
-                    if (webCompatMode) {
-                        // Web-App-kompatible Verschlüsselung verwenden
-                        encrypted = RsaUtils.encryptWebAppCompatible(input, currentKeyPair[0]);
-                        showInfo("Im Web-App-kompatiblen Format (RSA-OAEP) verschlüsselt");
-                    } else {
-                        // Standard-Verschlüsselung der Android-App
-                        encrypted = RsaUtils.encrypt(input, currentKeyPair[0]); // publicKey
-                        showInfo("Standard-Format (PKCS1) verschlüsselt");
-                    }
+                    String encrypted = RsaUtils.encrypt(input, currentKeyPair[0]); // publicKey
                     outputText.setText(encrypted);
                 } catch (Exception e) {
                     showError("Verschlüsselung fehlgeschlagen: " + e.getMessage());
@@ -447,18 +433,8 @@ public class RsaFragment extends Fragment implements RsaKeyAdapter.KeyActionList
             }
 
             try {
-                // Automatische Entschlüsselung mit universeller Methode - versucht beide Formate
-                try {
-                    // Zuerst versuchen mit Web-App-Format zu entschlüsseln
-                    String decrypted = RsaUtils.decryptWebAppCompatible(input, currentKeyPair[1]);
-                    outputText.setText(decrypted);
-                    showInfo("Mit Web-App-kompatiblem Format (RSA-OAEP) entschlüsselt");
-                } catch (Exception e) {
-                    // Wenn das fehlschlägt, mit Standardformat versuchen
-                    String decrypted = RsaUtils.decrypt(input, currentKeyPair[1]); // privateKey
-                    outputText.setText(decrypted);
-                    showInfo("Mit Standard-Format (PKCS1) entschlüsselt");
-                }
+                String decrypted = RsaUtils.decrypt(input, currentKeyPair[1]); // privateKey
+                outputText.setText(decrypted);
             } catch (Exception e) {
                 showError("Entschlüsselung fehlgeschlagen: " + e.getMessage());
             }

@@ -45,7 +45,6 @@ public class AesFragment extends Fragment {
     private Spinner keySizeSpinner;
     private RecyclerView savedKeysRecyclerView;
     private TextView errorText, infoText;
-    // Web Compatibility Mode entfernt
 
     private AesKeyAdapter keyAdapter;
     private List<AesKey> savedKeys = new ArrayList<>();
@@ -85,7 +84,6 @@ public class AesFragment extends Fragment {
         savedKeysRecyclerView = view.findViewById(R.id.saved_keys_recycler);
         errorText = view.findViewById(R.id.error_text);
         infoText = view.findViewById(R.id.info_text);
-        // Web Compatibility Mode Switch entfernt
 
         // RecyclerView einrichten
         savedKeysRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -209,25 +207,13 @@ public class AesFragment extends Fragment {
         try {
             String result;
             if (currentMode.equals("encrypt")) {
-                // Web-Kompatibilitätsmodus entfernt - Standardverschlüsselung der Android-App
                 result = AesUtils.encrypt(input, password, keySize);
-                showInfo("Verschlüsselung erfolgreich");
             } else {
-                // Robuste Entschlüsselung verwenden
-                result = AesUtils.decryptRobust(input, password, keySize);
+                result = AesUtils.decrypt(input, password, keySize);
             }
             outputText.setText(result);
         } catch (Exception e) {
-            String errorMsg = e.getMessage();
-            
-            // Verbesserte Fehlermeldung bei Entschlüsselungsfehlern
-            if (errorMsg != null && errorMsg.contains("BAD_DECRYPT")) {
-                showError("Entschlüsselungsfehler: Möglicherweise wurde der Text mit einer anderen Version verschlüsselt. " +
-                        "Versuche es mit der universellen Entschlüsselungsmethode oder aktiviere den Web-Kompatibilitätsmodus " +
-                        "bei der Verschlüsselung.");
-            } else {
-                showError("Fehler: " + errorMsg);
-            }
+            showError("Fehler: " + e.getMessage());
         }
     }
 
