@@ -24,6 +24,8 @@
     <!-- Neue standardisierte UI-Strings -->
     <string name="mode_title">Modus</string>
     <string name="input_output_title">Eingabe und Ausgabe</string>
+    <string name="input_title">Eingabe</string>
+    <string name="output_title">Ergebnis</string>
     <string name="key_settings_title">Schlüssel-Einstellungen</string>
     <string name="advanced_options">Erweiterte Optionen</string>
     <string name="actions">Aktionen</string>
@@ -66,6 +68,7 @@
     <string name="rsa_description">RSA ist ein asymmetrisches Verschlüsselungsverfahren, das mit zwei Schlüsseln arbeitet: einem öffentlichen zum Verschlüsseln und einem privaten zum Entschlüsseln. RSA eignet sich besonders für den sicheren Schlüsselaustausch oder für digitale Signaturen.</string>
     <string name="rsa_encrypt_hint">Zu verschlüsselnder Text</string>
     <string name="rsa_decrypt_hint">Zu entschlüsselnder Text (Base64)</string>
+    <string name="rsa_output">Ergebnis</string>
     <string name="rsa_key_pair">Schlüsselpaar</string>
     <string name="rsa_public_key">Öffentlicher Schlüssel</string>
     <string name="rsa_private_key">Privater Schlüssel</string>
@@ -99,6 +102,7 @@
 
     <!-- Dateiverschlüsselung -->
     <string name="file_description">Diese Funktion ermöglicht es Ihnen, Dateien mit AES-GCM zu verschlüsseln und entschlüsseln. Verschlüsselte Dateien haben die Dateiendung .enc und können später mit dem gleichen Passwort wieder entschlüsselt werden.</string>
+    <string name="files_title">Dateien</string>
     <string name="file_pick_files">Dateien auswählen</string>
     <string name="file_pick_files_to_encrypt">Dateien zum Verschlüsseln auswählen</string>
     <string name="file_pick_files_to_decrypt">Dateien zum Entschlüsseln auswählen</string>
@@ -129,6 +133,9 @@
     <string name="dialog_delete_key_pair_message">Möchtest Du dieses Schlüsselpaar wirklich löschen?</string>
     <string name="dialog_security_warning">Sicherheitswarnung</string>
     <string name="dialog_private_key_warning">Der private Schlüssel sollte niemals ungeschützt weitergegeben werden. Bist du sicher, dass du ihn exportieren möchtest?</string>
+    <string name="dialog_import_public_key_title">Öffentlichen Schlüssel importieren</string>
+    <string name="dialog_import_public_key_message">Gib einen Namen für den zu importierenden öffentlichen Schlüssel ein. Mit diesem Schlüssel kannst du Nachrichten für den Besitzer verschlüsseln.</string>
+    <string name="dialog_key_name_hint">Name für den Schlüssel</string>
 
     <!-- Fehlermeldungen -->
     <string name="error_no_text">Bitte Text eingeben</string>
@@ -167,4 +174,9 @@
     <string name="pick_files_to_encrypt">Dartei zum Verschlüsseln auswählen</string>
     <string name="pick_files_to_decrypt">Dartei zum Entschlüsseln auswählen</string>
     <string name="enter_password_to_unlock">Gib das Passwort ein, um den geschützten Schlüssel zu entsperren</string>
+    <string name="dialog_export_keys_message">Du kannst alle deine Schlüssel in eine Datei exportieren. Für zusätzliche Sicherheit kannst du die Datei mit einem Passwort schützen.</string>
+    <string name="dialog_export_summary_default">Export: 0 AES Schlüssel, 0 RSA Schlüsselpaare</string>
+    <string name="dialog_protect_with_password">Mit Passwort schützen</string>
+    <string name="dialog_import_keys_message">Wähle eine Schlüsseldatei aus, um sie zu importieren. Falls die Datei passwortgeschützt ist, musst du das Passwort eingeben.</string>
+    <string name="dialog_select_key_file">Schlüsseldatei auswählen</string>
 </resources>

@@ -1,36 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/background"
-    android:orientation="vertical"
-    android:padding="@dimen/spacing_m">
+    style="@style/Widget.App.DialogLayout">
 
     <TextView
         android:id="@+id/dialog_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_m"
-        android:text="Öffentlichen Schlüssel importieren"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        android:textColor="@color/text_primary" />
+        style="@style/Widget.App.DialogTitle"
+        android:text="@string/dialog_import_public_key_title" />
 
     <TextView
         android:id="@+id/dialog_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_m"
-        android:text="Gib einen Namen für den zu importierenden öffentlichen Schlüssel ein. Mit diesem Schlüssel kannst du Nachrichten für den Besitzer verschlüsseln."
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-        android:textColor="@color/text_secondary" />
+        style="@style/Widget.App.DialogMessage"
+        android:text="@string/dialog_import_public_key_message" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/key_name_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_m"
-        android:hint="Name für den Schlüssel">
+        style="@style/Widget.App.TextField"
+        android:hint="@string/dialog_key_name_hint"
+        android:layout_marginBottom="0dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/key_name_input"

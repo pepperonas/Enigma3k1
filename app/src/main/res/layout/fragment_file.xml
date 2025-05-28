@@ -193,7 +193,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Dateien"
+                        android:text="@string/files_title"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                         android:textColor="?attr/android:textColorPrimary"
                         android:layout_marginBottom="@dimen/spacing_s" />
@@ -223,6 +223,7 @@
                         android:id="@+id/files_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
                         android:visibility="gone"
                         tools:listitem="@layout/item_file"
                         tools:itemCount="2"
@@ -250,6 +251,7 @@
                         android:id="@+id/saved_keys_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
                         tools:listitem="@layout/item_key"
                         tools:itemCount="2" />
 

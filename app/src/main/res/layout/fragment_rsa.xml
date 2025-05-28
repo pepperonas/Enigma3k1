@@ -18,23 +18,17 @@
         android:orientation="vertical"
         android:padding="@dimen/spacing_m">
 
-        <!-- Verschlüsselungsmodus (Encrypt/Decrypt) -->
+        <!-- Mode Selector Card -->
         <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.App.SectionCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_m">
+            style="@style/Widget.App.SectionCard">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/spacing_m">
+                style="@style/Widget.App.SectionContent">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Modus"
+                    android:text="@string/mode_title"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:textColor="?attr/android:textColorPrimary"
                     android:layout_marginBottom="@dimen/spacing_s" />
@@ -46,7 +40,7 @@
                     app:singleSelection="true"
                     app:selectionRequired="true">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/encrypt_button"
                         style="@style/Widget.App.Button.Toggle"
                         android:layout_width="0dp"
@@ -54,7 +48,7 @@
                         android:layout_weight="1"
                         android:text="@string/encrypt_button" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/decrypt_button"
                         style="@style/Widget.App.Button.Toggle"
                         android:layout_width="0dp"
@@ -66,21 +60,15 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- RSA Schlüssel-Einstellungen -->
+        <!-- Key Settings Card -->
         <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.App.SectionCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_m">
+            style="@style/Widget.App.SectionCard">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/spacing_m">
+                style="@style/Widget.App.SectionContent">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/rsa_key_pair"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
@@ -115,7 +103,7 @@
                             android:spinnerMode="dropdown" />
                     </LinearLayout>
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/generate_key_button"
                         style="@style/Widget.App.Button"
                         android:layout_width="0dp"
@@ -154,7 +142,7 @@
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                         android:textColor="?attr/android:textColorPrimary" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/import_key_button"
                         style="@style/Widget.App.Button.OutlinedButton"
                         android:layout_width="wrap_content"
@@ -257,12 +245,13 @@
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/save_key_button"
                         style="@style/Widget.App.Button.OutlinedButton"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/save_key_button" />
+                        android:layout_height="wrap_content"
+                        android:text="@string/save_key_button"
+                        android:layout_gravity="center_vertical" />
                 </LinearLayout>
                 
                 <!-- Error/Info Messages -->
@@ -282,121 +271,104 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Eingabefeld -->
+        <!-- Input Card -->
         <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.App.SectionCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_m">
+            style="@style/Widget.App.SectionCard">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/spacing_m">
+                style="@style/Widget.App.SectionContent">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Eingabe"
+                    android:text="@string/input_title"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:textColor="?attr/android:textColorPrimary"
                     android:layout_marginBottom="@dimen/spacing_s" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.App.TextInputLayout"
-                    android:layout_marginBottom="@dimen/spacing_m"
-                    app:hintEnabled="false">
+                    style="@style/Widget.App.TextField"
+                    android:hint="@string/rsa_encrypt_hint">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/input_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/rsa_encrypt_hint"
+                        android:gravity="top"
                         android:inputType="textMultiLine"
-                        android:minHeight="120dp"
-                        android:gravity="top|start" />
+                        android:minLines="4" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
 
-        <!-- Ausgabefeld -->
+        <!-- Output Card -->
         <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.App.SectionCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_m"
-            android:layout_marginBottom="@dimen/spacing_m">
+            style="@style/Widget.App.SectionCard">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/spacing_m">
+                style="@style/Widget.App.SectionContent">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/output_title"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="?attr/android:textColorPrimary"
+                    android:layout_marginBottom="@dimen/spacing_s" />
+
+                <!-- Output Text with Copy Button -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="@dimen/spacing_s">
+                    android:orientation="vertical"
+                    android:layout_marginBottom="@dimen/spacing_m">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Ergebnis"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                        android:textColor="?attr/android:textColorPrimary" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextField"
+                        android:hint="@string/rsa_output"
+                        android:layout_marginBottom="4dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/output_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:focusable="false"
+                            android:minLines="4" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/copy_output_button"
                         style="@style/Widget.App.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:icon="@drawable/ic_copy"
-                        android:text="Kopieren" />
+                        android:layout_gravity="end"
+                        android:text="@string/copy_to_clipboard"
+                        app:icon="@drawable/ic_content_copy"
+                        android:textSize="12sp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp" />
                 </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.App.TextInputLayout"
-                    app:hintEnabled="false">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/output_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Ergebnis"
-                        android:inputType="textMultiLine"
-                        android:minHeight="120dp"
-                        android:gravity="top|start"
-                        android:focusable="false"
-                        android:cursorVisible="false" />
-                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Gespeicherte Schlüssel -->
+        <!-- Saved Keys Card -->
         <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.App.SectionCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_m">
+            style="@style/Widget.App.SectionCard">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/spacing_m">
+                style="@style/Widget.App.SectionContent">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/rsa_saved_key_pairs"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
@@ -407,28 +379,25 @@
                     android:id="@+id/key_pairs_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:listitem="@layout/item_key"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_rsa_key"
                     tools:itemCount="2" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
         
-        <!-- Info Section -->
+        <!-- Info Card -->
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.App.SectionCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_marginBottom="0dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/spacing_m">
+                style="@style/Widget.App.SectionContent">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/rsa_info_title"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:textColor="?attr/android:textColorPrimary"
                     android:layout_marginBottom="@dimen/spacing_s" />
 
